@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { X, Edit2, Calendar, Clock, Plus, Info, Users, ArrowRight, Footprints, Palette, Coffee, Trophy, Music, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useActivity } from '../context/ActivityContext';
-import { useUser } from '../context/UserContext';
 
 const defaultCategories = [
-  { name: '城市漫步', icon: <Footprints size={20} /> },
-  { name: '手作体验', icon: <Palette size={20} /> },
-  { name: '咖啡聚会', icon: <Coffee size={20} /> },
-  { name: '运动', icon: <Trophy size={20} /> },
-  { name: '音乐', icon: <Music size={20} /> },
+  { name: '鍩庡競婕', icon: <Footprints size={20} /> },
+  { name: '鎵嬩綔浣撻獙', icon: <Palette size={20} /> },
+  { name: '鍜栧暋鑱氫細', icon: <Coffee size={20} /> },
+  { name: '杩愬姩', icon: <Trophy size={20} /> },
+  { name: '闊充箰', icon: <Music size={20} /> },
 ];
 
 export const Create: React.FC = () => {
   const navigate = useNavigate();
-  const { addActivity } = useActivity();
-  const { user } = useUser();
+  const { createActivity } = useActivity();
 
   const [title, setTitle] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(defaultCategories[0].name);
@@ -27,47 +25,34 @@ export const Create: React.FC = () => {
   const [description, setDescription] = useState('');
   const [limit, setLimit] = useState(8);
 
-  const handlePublish = () => {
+  const handlePublish = async () => {
     if (!title) {
-        alert("请输入活动名称");
-        return;
+      alert("Please enter activity title");
+      return;
     }
 
     const finalCategory = isCustomCategory ? customCategory : selectedCategory;
     if (isCustomCategory && !customCategory) {
-        alert("请输入自定义分类名称");
-        return;
+      alert("Please enter custom category");
+      return;
     }
 
     if (!locationName) {
-        alert("请输入活动地点");
-        return;
+      alert("Please enter location");
+      return;
     }
 
-    // Format Date for display (e.g., "10月24日 (周四)")
-    const dateObj = new Date(date);
-    const month = dateObj.getMonth() + 1;
-    const day = dateObj.getDate();
-    const weekDay = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'][dateObj.getDay()];
-    const displayDate = `${month}月${day}日 ${weekDay} • ${time}`;
-
-    const newActivity = {
-      id: Date.now().toString(),
-      title: title,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCodDhtLlCOzZ5LneMiwgjCvfbSpLGA7bsrsPlqlDO6wSh_IinBwwHp4d9t4AbdSu2JvbzICtw9iJczMpAYNxzSQw1hmUGLoZEpXxZfNyRMm2zvnq5hRYKbLcBXEtZgVJ_1OAZWTqr8PPESvIVc1xZJyNcrTE3UL7deMvRsXcLGvUZEaBLs10IrMdREU8puNRvD82kJi0_opEjHbwUvyl8TIJiIomm5LzwLBc3_q23J1c4kT5kOCfF3NTRqvcUE05-UL854gC1Qcr8', // Default map image for now
-      location: locationName, 
-      date: displayDate,
-      fullDate: date,
-      participants: 1, // Start with just the host
-      needed: limit - 1,
-      tag: finalCategory,
-      avatars: [user.avatar], // Host avatar
-      description: description,
-      isUserCreated: true
-    };
-
-    addActivity(newActivity);
-    navigate('/');
+    const startTime = new Date(`${date}T${time}:00`).toISOString();
+    await createActivity({
+      title,
+      location: locationName,
+      start_time: startTime,
+      category: finalCategory,
+      description,
+      max_participants: limit,
+      image_url: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1200&auto=format&fit=crop"
+    });
+    navigate("/");
   };
 
   return (
@@ -77,7 +62,7 @@ export const Create: React.FC = () => {
           <button onClick={() => navigate(-1)} className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 transition-colors">
             <X size={24} />
           </button>
-          <h1 className="text-lg font-bold tracking-tight text-center flex-1">发布新活动</h1>
+          <h1 className="text-lg font-bold tracking-tight text-center flex-1">鍙戝竷鏂版椿鍔?</h1>
           <div className="w-10"></div> 
         </div>
       </header>
@@ -85,11 +70,11 @@ export const Create: React.FC = () => {
       <main className="max-w-md mx-auto px-5 pt-2 flex flex-col gap-8">
         <section className="flex flex-col gap-4">
           <div>
-            <h2 className="text-xl font-bold mb-3 px-1 text-slate-900">活动名称</h2>
+            <h2 className="text-xl font-bold mb-3 px-1 text-slate-900">娲诲姩鍚嶇О</h2>
             <div className="group relative">
               <input 
                 className="w-full bg-white border-0 rounded-2xl py-6 px-5 text-xl font-semibold placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 transition-all shadow-sm shadow-primary/5" 
-                placeholder="给你的活动起个名字..." 
+                placeholder="缁欎綘鐨勬椿鍔ㄨ捣涓悕瀛?.." 
                 type="text" 
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -100,7 +85,7 @@ export const Create: React.FC = () => {
             </div>
           </div>
           <div>
-            <label className="block text-sm font-bold text-slate-500 uppercase tracking-wider mb-3 px-1">选择分类</label>
+            <label className="block text-sm font-bold text-slate-500 uppercase tracking-wider mb-3 px-1">閫夋嫨鍒嗙被</label>
             <div className="flex gap-3 overflow-x-auto custom-scrollbar pb-3 -mx-5 px-5 snap-x">
               {defaultCategories.map((cat, idx) => (
                 <button 
@@ -126,7 +111,7 @@ export const Create: React.FC = () => {
                 <div className="mt-3 animate-in fade-in slide-in-from-top-1">
                     <input 
                         className="w-full bg-white border border-primary/20 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/50 focus:outline-none"
-                        placeholder="输入自定义标签名称 (例如: 读书会)"
+                        placeholder="杈撳叆鑷畾涔夋爣绛惧悕绉?(渚嬪: 璇讳功浼?"
                         value={customCategory}
                         onChange={(e) => setCustomCategory(e.target.value)}
                         autoFocus
@@ -139,12 +124,12 @@ export const Create: React.FC = () => {
         <hr className="border-dashed border-slate-200" />
 
         <section className="flex flex-col gap-5">
-          <h2 className="text-xl font-bold px-1 text-slate-900">时间地点</h2>
+          <h2 className="text-xl font-bold px-1 text-slate-900">鏃堕棿鍦扮偣</h2>
           <div className="grid grid-cols-2 gap-3">
             <div className="relative flex flex-col gap-1.5 p-4 bg-white rounded-2xl border-2 border-transparent hover:border-primary/20 transition-colors cursor-pointer shadow-sm group">
               <div className="flex items-center gap-2 text-primary mb-1">
                 <Calendar size={18} />
-                <span className="text-xs font-bold uppercase tracking-wide text-slate-500">日期</span>
+                <span className="text-xs font-bold uppercase tracking-wide text-slate-500">鏃ユ湡</span>
               </div>
               <input 
                 type="date" 
@@ -156,7 +141,7 @@ export const Create: React.FC = () => {
             <div className="relative flex flex-col gap-1.5 p-4 bg-white rounded-2xl border-2 border-transparent hover:border-primary/20 transition-colors cursor-pointer shadow-sm group">
               <div className="flex items-center gap-2 text-primary mb-1">
                 <Clock size={18} />
-                <span className="text-xs font-bold uppercase tracking-wide text-slate-500">时间</span>
+                <span className="text-xs font-bold uppercase tracking-wide text-slate-500">鏃堕棿</span>
               </div>
               <input 
                 type="time" 
@@ -173,7 +158,7 @@ export const Create: React.FC = () => {
              </div>
              <input 
                 className="w-full bg-white border-0 rounded-2xl py-4 pl-12 pr-4 text-base font-semibold placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 transition-all shadow-sm"
-                placeholder="输入活动地点 (例如: 静安公园)"
+                placeholder="杈撳叆娲诲姩鍦扮偣 (渚嬪: 闈欏畨鍏洯)"
                 value={locationName}
                 onChange={(e) => setLocationName(e.target.value)}
              />
@@ -189,7 +174,7 @@ export const Create: React.FC = () => {
             </div>
             <div className="absolute inset-0 bg-black/10"></div>
             <div className="absolute inset-0 flex items-center justify-center">
-               <span className="bg-white/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full shadow-sm text-slate-600">地图预览</span>
+               <span className="bg-white/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full shadow-sm text-slate-600">鍦板浘棰勮</span>
             </div>
           </div>
         </section>
@@ -199,12 +184,12 @@ export const Create: React.FC = () => {
         <section className="flex flex-col gap-6">
           <div>
             <div className="flex justify-between items-baseline mb-3 px-1">
-              <h2 className="text-xl font-bold text-slate-900">活动描述</h2>
-              <span className="text-xs font-medium text-slate-400">选填</span>
+              <h2 className="text-xl font-bold text-slate-900">娲诲姩鎻忚堪</h2>
+              <span className="text-xs font-medium text-slate-400">閫夊～</span>
             </div>
             <textarea 
               className="w-full bg-white border-0 rounded-2xl p-5 min-h-[140px] text-base leading-relaxed placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 resize-none shadow-sm" 
-              placeholder="描述一下具体的活动内容。请提及需要的装备或集合点的详细信息..."
+              placeholder="鎻忚堪涓€涓嬪叿浣撶殑娲诲姩鍐呭銆傝鎻愬強闇€瑕佺殑瑁呭鎴栭泦鍚堢偣鐨勮缁嗕俊鎭?.."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             ></textarea>
@@ -219,7 +204,7 @@ export const Create: React.FC = () => {
                 <div className="p-2 bg-primary/10 rounded-full text-primary">
                   <Users size={20} />
                 </div>
-                <span className="font-bold text-slate-900">人数限制</span>
+                <span className="font-bold text-slate-900">浜烘暟闄愬埗</span>
               </div>
               <span className="font-bold text-2xl text-primary font-display">{limit}</span>
             </div>
@@ -233,8 +218,8 @@ export const Create: React.FC = () => {
                 onChange={(e) => setLimit(parseInt(e.target.value))}
               />
               <div className="flex justify-between mt-3 text-xs font-semibold text-slate-400">
-                <span>仅我和好友</span>
-                <span>大型聚会</span>
+                <span>浠呮垜鍜屽ソ鍙?</span>
+                <span>澶у瀷鑱氫細</span>
               </div>
             </div>
           </div>
@@ -248,7 +233,7 @@ export const Create: React.FC = () => {
             onClick={handlePublish}
             className="w-full bg-primary hover:bg-primary-dark text-white font-bold text-lg py-4 rounded-full shadow-xl shadow-primary/30 flex items-center justify-center gap-2 transition-transform active:scale-[0.98]"
           >
-            <span>发布活动</span>
+            <span>鍙戝竷娲诲姩</span>
             <ArrowRight size={24} />
           </button>
         </div>
@@ -256,3 +241,7 @@ export const Create: React.FC = () => {
     </div>
   );
 };
+
+
+
+
