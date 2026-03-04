@@ -1,6 +1,7 @@
 import { parseEnv } from "../config/env.js";
 import { AppError } from "../lib/errors.js";
 import {
+  createActivity,
   getActivityById,
   getProfileById,
   listActivities,
@@ -45,4 +46,29 @@ export async function getActivityDetail(id: string) {
     ...activity,
     host
   };
+}
+
+export async function createActivityForTestProfile(input: {
+  title: string;
+  image_url?: string;
+  location: string;
+  start_time: string;
+  category: string;
+  description?: string;
+  max_participants: number;
+}) {
+  const env = parseEnv(process.env);
+  const activity = await createActivity({
+    title: input.title,
+    image_url: input.image_url,
+    location: input.location,
+    start_time: input.start_time,
+    category: input.category,
+    description: input.description,
+    host_profile_id: env.TEST_PROFILE_ID,
+    participant_count: 1,
+    max_participants: input.max_participants
+  });
+
+  return activity;
 }

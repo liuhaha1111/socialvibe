@@ -13,6 +13,18 @@ export interface ActivityRecord {
   max_participants: number;
 }
 
+export interface CreateActivityInput {
+  title: string;
+  image_url?: string;
+  location: string;
+  start_time: string;
+  category: string;
+  description?: string;
+  host_profile_id: string;
+  participant_count: number;
+  max_participants: number;
+}
+
 export interface ProfileRecord {
   id: string;
   name: string;
@@ -85,4 +97,29 @@ export async function getProfileById(id: string): Promise<ProfileRecord | null> 
   }
 
   return (data as ProfileRecord | null) ?? null;
+}
+
+export async function createActivity(input: CreateActivityInput): Promise<ActivityRecord> {
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase
+    .from("activities")
+    .insert({
+      title: input.title,
+      image_url: input.image_url ?? null,
+      location: input.location,
+      start_time: input.start_time,
+      category: input.category,
+      description: input.description ?? null,
+      host_profile_id: input.host_profile_id,
+      participant_count: input.participant_count,
+      max_participants: input.max_participants
+    })
+    .select("*")
+    .single();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data as ActivityRecord;
 }
