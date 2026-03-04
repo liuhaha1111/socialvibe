@@ -12,8 +12,15 @@ export const Settings: React.FC = () => {
   const [email, setEmail] = useState(user.email);
   const [location, setLocation] = useState(user.location);
 
-  const handleSave = () => {
-    updateUser({ name, bio, email, location });
+  useEffect(() => {
+    setName(user.name);
+    setBio(user.bio);
+    setEmail(user.email);
+    setLocation(user.location);
+  }, [user]);
+
+  const handleSave = async () => {
+    await updateUser({ name, bio, email, location });
     navigate('/profile');
   };
 
