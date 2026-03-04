@@ -123,3 +123,22 @@ export async function createActivity(input: CreateActivityInput): Promise<Activi
 
   return data as ActivityRecord;
 }
+
+export async function listActivitiesByIds(ids: string[]): Promise<ActivityRecord[]> {
+  if (ids.length === 0) {
+    return [];
+  }
+
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase
+    .from("activities")
+    .select("*")
+    .in("id", ids)
+    .order("start_time", { ascending: true });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return (data ?? []) as ActivityRecord[];
+}
