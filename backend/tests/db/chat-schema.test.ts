@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+﻿import { describe, expect, it } from "vitest";
 
 describe("chat schema", () => {
   it("has chat tables and at least 3 profiles", async () => {

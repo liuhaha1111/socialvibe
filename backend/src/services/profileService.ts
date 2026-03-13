@@ -14,7 +14,7 @@ export async function getCurrentProfile() {
 export async function updateCurrentProfile(updates: {
   name?: string;
   bio?: string;
-  email?: string;
+  email?: string | null;
   location?: string;
   avatar_url?: string;
 }) {

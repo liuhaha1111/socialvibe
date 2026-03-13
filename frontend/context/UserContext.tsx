@@ -59,11 +59,11 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, [refreshUser]);
 
   const updateUser = useCallback(async (updates: Partial<UserProfile>) => {
-    const payload: Record<string, string> = {};
+    const payload: Record<string, string | null> = {};
     if (updates.name !== undefined) payload.name = updates.name;
     if (updates.avatar !== undefined) payload.avatar_url = updates.avatar;
     if (updates.bio !== undefined) payload.bio = updates.bio;
-    if (updates.email !== undefined) payload.email = updates.email;
+    if (updates.email !== undefined) payload.email = updates.email.trim() === "" ? null : updates.email;
     if (updates.location !== undefined) payload.location = updates.location;
 
     const data = await apiPut<ProfileApi>("/api/v1/me/profile", payload);

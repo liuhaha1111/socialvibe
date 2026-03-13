@@ -26,7 +26,11 @@ export async function getProfileById(id: string): Promise<ProfileRecord | null> 
 
 export async function updateProfileById(
   id: string,
-  updates: Partial<Pick<ProfileRecord, "name" | "bio" | "email" | "location" | "avatar_url">>
+  updates: Partial<
+    Pick<ProfileRecord, "name" | "bio" | "location" | "avatar_url"> & {
+      email: string | null;
+    }
+  >
 ): Promise<ProfileRecord> {
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase

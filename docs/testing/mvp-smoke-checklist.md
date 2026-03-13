@@ -22,6 +22,10 @@ Date: 2026-03-04
 6. `POST /api/v1/me/favorites/:activityId` creates favorite.
 7. `GET /api/v1/me/favorites` includes that activity.
 8. `DELETE /api/v1/me/favorites/:activityId` returns `204`.
+9. `GET /api/v1/me/conversations` returns list with `unread_count`.
+10. `POST /api/v1/me/conversations/:id/messages` sends a message.
+11. `POST /api/v1/me/conversations/:id/read` updates read state.
+12. `GET /api/v1/me/notifications` returns system notifications.
 
 ## Frontend checks
 
@@ -31,3 +35,7 @@ Date: 2026-03-04
 4. Saved page reflects favorite add/remove operations.
 5. Settings saves profile changes and Profile shows updated values.
 6. Refresh browser: created activity/profile edits/favorites remain persisted.
+7. Chat List displays backend conversations and unread counts.
+8. Chat Thread loads backend messages and can send new messages.
+9. Opening a chat marks unread messages as read.
+10. Key pages (`Create/Chat/ChatList/Profile/Settings`) have no mojibake markers.

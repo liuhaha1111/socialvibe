@@ -126,7 +126,7 @@ export const ActivityProvider: React.FC<{ children: ReactNode }> = ({ children }
     async (id: string) => {
       const prev = favorites;
       const currentlyFavorite = prev.includes(id);
-      const next = currentlyFavorite ? prev.filter((x) => x !== id) : [...prev, id];
+      const next = currentlyFavorite ? prev.filter((x) => x !== id) : Array.from(new Set([...prev, id]));
       setFavorites(next);
 
       // Some static mock IDs still exist on detail mock card.
@@ -141,6 +141,13 @@ export const ActivityProvider: React.FC<{ children: ReactNode }> = ({ children }
           await apiPost<null>(`/api/v1/me/favorites/${id}`);
         }
       } catch (error) {
+        const message = error instanceof Error ? error.message.toLowerCase() : "";
+        if (!currentlyFavorite && (message.includes("already exists") || message.includes("conflict"))) {
+          // Treat duplicate create as idempotent success.
+          setFavorites((value) => (value.includes(id) ? value : [...value, id]));
+          return;
+        }
+
         setFavorites(prev);
         throw error;
       }

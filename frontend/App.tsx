@@ -13,6 +13,7 @@ import { CheckIn } from './pages/CheckIn';
 import { Saved } from './pages/Saved';
 import { UserProvider } from './context/UserContext';
 import { ActivityProvider } from './context/ActivityContext';
+import { ChatProvider } from './context/ChatContext';
 
 // A simple wrapper to apply the max-w-md constraint
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -30,22 +31,25 @@ export default function App() {
   return (
     <UserProvider>
       <ActivityProvider>
-        <Router>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/detail" element={<Detail />} />
-              <Route path="/create" element={<Create />} />
-              <Route path="/chat" element={<Chat />} />
-              <Route path="/chat-list" element={<ChatList />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/review" element={<Review />} />
-              <Route path="/checkin" element={<CheckIn />} />
-              <Route path="/saved" element={<Saved />} />
-            </Routes>
-          </Layout>
-        </Router>
+        <ChatProvider>
+          <Router>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/detail" element={<Detail />} />
+                <Route path="/create" element={<Create />} />
+                <Route path="/chat" element={<Navigate to="/chat-list" replace />} />
+                <Route path="/chat/:conversationId" element={<Chat />} />
+                <Route path="/chat-list" element={<ChatList />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/review" element={<Review />} />
+                <Route path="/checkin" element={<CheckIn />} />
+                <Route path="/saved" element={<Saved />} />
+              </Routes>
+            </Layout>
+          </Router>
+        </ChatProvider>
       </ActivityProvider>
     </UserProvider>
   );

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+﻿import { describe, expect, it } from "vitest";
 
 describe("db schema", () => {
   it("has profiles, activities, favorites tables", async () => {

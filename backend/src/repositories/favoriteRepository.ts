@@ -8,7 +8,9 @@ export async function createFavorite(profileId: string, activityId: string): Pro
   });
 
   if (error) {
-    throw new Error(error.message);
+    throw Object.assign(new Error(error.message), {
+      code: error.code ?? undefined
+    });
   }
 }
 

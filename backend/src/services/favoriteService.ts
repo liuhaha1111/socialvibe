@@ -15,7 +15,10 @@ export async function addFavorite(activityId: string) {
   try {
     await createFavorite(env.TEST_PROFILE_ID, activityId);
   } catch (error) {
-    if (error instanceof Error && error.message.includes("duplicate key value")) {
+    if (
+      error instanceof Error &&
+      ((error as Error & { code?: string }).code === "23505" || error.message.includes("duplicate key value"))
+    ) {
       throw new AppError(409, "CONFLICT", "Favorite already exists");
     }
     throw error;

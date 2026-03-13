@@ -1,1 +1,6 @@
 .worktrees/
+
+backend/node_modules/
+backend/dist/
+*.dev.out.log
+*.dev.err.log
