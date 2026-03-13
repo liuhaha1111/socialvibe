@@ -1,0 +1,617 @@
+0 verbose cli D:\Program Files\nodejs\node.exe D:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.6.1
+2 info using node@v24.10.0
+3 silly config load:file:D:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\.npmrc
+5 silly config load:file:C:\Users\lenovo\.npmrc
+6 silly config load:file:D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\etc\npmrc
+7 verbose title npm install
+8 verbose argv "--prefix" ".worktrees/socialvibe-mvp/backend" "install" "--cache" ".npm-cache"
+9 verbose logfile logs-max:10 dir:D:\codex_code\socialvibe\.npm-cache\_logs\2026-03-04T09_12_58_532Z-
+10 verbose logfile D:\codex_code\socialvibe\.npm-cache\_logs\2026-03-04T09_12_58_532Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules
+14 silly idealTree buildDeps
+15 silly fetch manifest @supabase/supabase-js@^2.49.1
+16 silly packumentCache full:https://registry.npmjs.org/@supabase%2fsupabase-js cache-miss
+17 http fetch GET 200 https://registry.npmjs.org/@supabase%2fsupabase-js 3698ms (cache miss)
+18 silly packumentCache full:https://registry.npmjs.org/@supabase%2fsupabase-js set size:undefined disposed:false
+19 silly fetch manifest zod@^3.24.2
+20 silly packumentCache full:https://registry.npmjs.org/zod cache-miss
+21 http fetch GET 200 https://registry.npmjs.org/zod 649ms (cache miss)
+22 silly packumentCache full:https://registry.npmjs.org/zod set size:undefined disposed:false
+23 silly placeDep ROOT @supabase/supabase-js@2.98.0 OK for: socialvibe-backend@0.1.0 want: ^2.49.1
+24 silly placeDep ROOT zod@3.25.76 OK for: socialvibe-backend@0.1.0 want: ^3.24.2
+25 silly fetch manifest @supabase/auth-js@2.98.0
+26 silly packumentCache full:https://registry.npmjs.org/@supabase%2fauth-js cache-miss
+27 silly fetch manifest @supabase/storage-js@2.98.0
+28 silly packumentCache full:https://registry.npmjs.org/@supabase%2fstorage-js cache-miss
+29 silly fetch manifest @supabase/realtime-js@2.98.0
+30 silly packumentCache full:https://registry.npmjs.org/@supabase%2frealtime-js cache-miss
+31 silly fetch manifest @supabase/functions-js@2.98.0
+32 silly packumentCache full:https://registry.npmjs.org/@supabase%2ffunctions-js cache-miss
+33 silly fetch manifest @supabase/postgrest-js@2.98.0
+34 silly packumentCache full:https://registry.npmjs.org/@supabase%2fpostgrest-js cache-miss
+35 http fetch GET 200 https://registry.npmjs.org/@supabase%2fauth-js 336ms (cache miss)
+36 silly packumentCache full:https://registry.npmjs.org/@supabase%2fauth-js set size:undefined disposed:false
+37 http fetch GET 200 https://registry.npmjs.org/@supabase%2ffunctions-js 2001ms (cache miss)
+38 silly packumentCache full:https://registry.npmjs.org/@supabase%2ffunctions-js set size:undefined disposed:false
+39 http fetch GET 200 https://registry.npmjs.org/@supabase%2frealtime-js 2241ms (cache miss)
+40 silly packumentCache full:https://registry.npmjs.org/@supabase%2frealtime-js set size:undefined disposed:false
+41 http fetch GET 200 https://registry.npmjs.org/@supabase%2fpostgrest-js 2307ms (cache miss)
+42 silly packumentCache full:https://registry.npmjs.org/@supabase%2fpostgrest-js set size:undefined disposed:false
+43 http fetch GET 200 https://registry.npmjs.org/@supabase%2fstorage-js 4244ms (cache miss)
+44 silly packumentCache full:https://registry.npmjs.org/@supabase%2fstorage-js set size:undefined disposed:false
+45 silly placeDep ROOT @supabase/auth-js@2.98.0 OK for: @supabase/supabase-js@2.98.0 want: 2.98.0
+46 silly placeDep ROOT @supabase/functions-js@2.98.0 OK for: @supabase/supabase-js@2.98.0 want: 2.98.0
+47 silly placeDep ROOT @supabase/postgrest-js@2.98.0 OK for: @supabase/supabase-js@2.98.0 want: 2.98.0
+48 silly placeDep ROOT @supabase/realtime-js@2.98.0 OK for: @supabase/supabase-js@2.98.0 want: 2.98.0
+49 silly placeDep ROOT @supabase/storage-js@2.98.0 OK for: @supabase/supabase-js@2.98.0 want: 2.98.0
+50 silly fetch manifest tslib@2.8.1
+51 silly packumentCache full:https://registry.npmjs.org/tslib cache-miss
+52 silly fetch manifest tslib@2.8.1
+53 silly packumentCache full:https://registry.npmjs.org/tslib cache-miss
+54 silly fetch manifest tslib@2.8.1
+55 silly packumentCache full:https://registry.npmjs.org/tslib cache-miss
+56 silly fetch manifest ws@^8.18.2
+57 silly packumentCache full:https://registry.npmjs.org/ws cache-miss
+58 silly fetch manifest tslib@2.8.1
+59 silly packumentCache full:https://registry.npmjs.org/tslib cache-miss
+60 silly fetch manifest @types/ws@^8.18.1
+61 silly packumentCache full:https://registry.npmjs.org/@types%2fws cache-miss
+62 silly fetch manifest @types/phoenix@^1.6.6
+63 silly packumentCache full:https://registry.npmjs.org/@types%2fphoenix cache-miss
+64 silly fetch manifest tslib@2.8.1
+65 silly packumentCache full:https://registry.npmjs.org/tslib cache-miss
+66 silly fetch manifest iceberg-js@^0.8.1
+67 silly packumentCache full:https://registry.npmjs.org/iceberg-js cache-miss
+68 http fetch GET 200 https://registry.npmjs.org/tslib 308ms (cache miss)
+69 silly packumentCache full:https://registry.npmjs.org/tslib set size:undefined disposed:false
+70 http fetch GET 200 https://registry.npmjs.org/tslib 334ms (cache miss)
+71 silly packumentCache full:https://registry.npmjs.org/tslib set size:undefined disposed:false
+72 http fetch GET 200 https://registry.npmjs.org/tslib 359ms (cache miss)
+73 silly packumentCache full:https://registry.npmjs.org/tslib set size:undefined disposed:false
+74 http fetch GET 200 https://registry.npmjs.org/tslib 364ms (cache miss)
+75 silly packumentCache full:https://registry.npmjs.org/tslib set size:undefined disposed:false
+76 http fetch GET 200 https://registry.npmjs.org/ws 435ms (cache miss)
+77 silly packumentCache full:https://registry.npmjs.org/ws set size:undefined disposed:false
+78 http fetch GET 200 https://registry.npmjs.org/iceberg-js 1432ms (cache miss)
+79 silly packumentCache full:https://registry.npmjs.org/iceberg-js set size:undefined disposed:false
+80 http fetch GET 200 https://registry.npmjs.org/tslib 1651ms (cache miss)
+81 silly packumentCache full:https://registry.npmjs.org/tslib set size:undefined disposed:false
+82 http fetch GET 200 https://registry.npmjs.org/@types%2fws 1770ms (cache miss)
+83 silly packumentCache full:https://registry.npmjs.org/@types%2fws set size:undefined disposed:false
+84 http fetch GET 200 https://registry.npmjs.org/@types%2fphoenix 2109ms (cache miss)
+85 silly packumentCache full:https://registry.npmjs.org/@types%2fphoenix set size:undefined disposed:false
+86 silly placeDep ROOT tslib@2.8.1 OK for: @supabase/auth-js@2.98.0 want: 2.8.1
+87 silly fetch manifest bufferutil@^4.0.1
+88 silly packumentCache full:https://registry.npmjs.org/bufferutil cache-miss
+89 http fetch GET 200 https://registry.npmjs.org/bufferutil 296ms (cache miss)
+90 silly packumentCache full:https://registry.npmjs.org/bufferutil set size:undefined disposed:false
+91 silly fetch manifest utf-8-validate@>=5.0.2
+92 silly packumentCache full:https://registry.npmjs.org/utf-8-validate cache-miss
+93 http fetch GET 200 https://registry.npmjs.org/utf-8-validate 327ms (cache miss)
+94 silly packumentCache full:https://registry.npmjs.org/utf-8-validate set size:undefined disposed:false
+95 silly placeDep ROOT @types/phoenix@1.6.7 OK for: @supabase/realtime-js@2.98.0 want: ^1.6.6
+96 silly placeDep ROOT @types/ws@8.18.1 OK for: @supabase/realtime-js@2.98.0 want: ^8.18.1
+97 silly placeDep ROOT ws@8.19.0 OK for: @supabase/realtime-js@2.98.0 want: ^8.18.2
+98 silly placeDep ROOT iceberg-js@0.8.1 OK for: @supabase/storage-js@2.98.0 want: ^0.8.1
+99 silly reify moves {}
+100 silly audit bulk request {
+100 silly audit   '@esbuild/aix-ppc64': [ '0.27.3' ],
+100 silly audit   '@esbuild/android-arm': [ '0.27.3' ],
+100 silly audit   '@esbuild/android-arm64': [ '0.27.3' ],
+100 silly audit   '@esbuild/android-x64': [ '0.27.3' ],
+100 silly audit   '@esbuild/darwin-arm64': [ '0.27.3' ],
+100 silly audit   '@esbuild/darwin-x64': [ '0.27.3' ],
+100 silly audit   '@esbuild/freebsd-arm64': [ '0.27.3' ],
+100 silly audit   '@esbuild/freebsd-x64': [ '0.27.3' ],
+100 silly audit   '@esbuild/linux-arm': [ '0.27.3' ],
+100 silly audit   '@esbuild/linux-arm64': [ '0.27.3' ],
+100 silly audit   '@esbuild/linux-ia32': [ '0.27.3' ],
+100 silly audit   '@esbuild/linux-loong64': [ '0.27.3' ],
+100 silly audit   '@esbuild/linux-mips64el': [ '0.27.3' ],
+100 silly audit   '@esbuild/linux-ppc64': [ '0.27.3' ],
+100 silly audit   '@esbuild/linux-riscv64': [ '0.27.3' ],
+100 silly audit   '@esbuild/linux-s390x': [ '0.27.3' ],
+100 silly audit   '@esbuild/linux-x64': [ '0.27.3' ],
+100 silly audit   '@esbuild/netbsd-arm64': [ '0.27.3' ],
+100 silly audit   '@esbuild/netbsd-x64': [ '0.27.3' ],
+100 silly audit   '@esbuild/openbsd-arm64': [ '0.27.3' ],
+100 silly audit   '@esbuild/openbsd-x64': [ '0.27.3' ],
+100 silly audit   '@esbuild/openharmony-arm64': [ '0.27.3' ],
+100 silly audit   '@esbuild/sunos-x64': [ '0.27.3' ],
+100 silly audit   '@esbuild/win32-arm64': [ '0.27.3' ],
+100 silly audit   '@esbuild/win32-ia32': [ '0.27.3' ],
+100 silly audit   '@esbuild/win32-x64': [ '0.27.3' ],
+100 silly audit   '@jridgewell/sourcemap-codec': [ '1.5.5' ],
+100 silly audit   '@noble/hashes': [ '1.8.0' ],
+100 silly audit   '@paralleldrive/cuid2': [ '2.3.1' ],
+100 silly audit   '@rollup/rollup-android-arm-eabi': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-android-arm64': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-darwin-arm64': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-darwin-x64': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-freebsd-arm64': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-freebsd-x64': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-linux-arm-gnueabihf': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-linux-arm-musleabihf': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-linux-arm64-gnu': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-linux-arm64-musl': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-linux-loong64-gnu': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-linux-loong64-musl': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-linux-ppc64-gnu': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-linux-ppc64-musl': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-linux-riscv64-gnu': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-linux-riscv64-musl': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-linux-s390x-gnu': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-linux-x64-gnu': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-linux-x64-musl': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-openbsd-x64': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-openharmony-arm64': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-win32-arm64-msvc': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-win32-ia32-msvc': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-win32-x64-gnu': [ '4.59.0' ],
+100 silly audit   '@rollup/rollup-win32-x64-msvc': [ '4.59.0' ],
+100 silly audit   '@types/body-parser': [ '1.19.6' ],
+100 silly audit   '@types/chai': [ '5.2.3' ],
+100 silly audit   '@types/connect': [ '3.4.38' ],
+100 silly audit   '@types/cookiejar': [ '2.1.5' ],
+100 silly audit   '@types/deep-eql': [ '4.0.2' ],
+100 silly audit   '@types/estree': [ '1.0.8' ],
+100 silly audit   '@types/express': [ '5.0.6' ],
+100 silly audit   '@types/express-serve-static-core': [ '5.1.1' ],
+100 silly audit   '@types/http-errors': [ '2.0.5' ],
+100 silly audit   '@types/methods': [ '1.1.4' ],
+100 silly audit   '@types/node': [ '22.19.13' ],
+100 silly audit   '@types/qs': [ '6.14.0' ],
+100 silly audit   '@types/range-parser': [ '1.2.7' ],
+100 silly audit   '@types/send': [ '1.2.1' ],
+100 silly audit   '@types/serve-static': [ '2.2.0' ],
+100 silly audit   '@types/superagent': [ '8.1.9' ],
+100 silly audit   '@types/supertest': [ '6.0.3' ],
+100 silly audit   '@vitest/expect': [ '3.2.4' ],
+100 silly audit   '@vitest/mocker': [ '3.2.4' ],
+100 silly audit   '@vitest/pretty-format': [ '3.2.4' ],
+100 silly audit   '@vitest/runner': [ '3.2.4' ],
+100 silly audit   '@vitest/snapshot': [ '3.2.4' ],
+100 silly audit   '@vitest/spy': [ '3.2.4' ],
+100 silly audit   '@vitest/utils': [ '3.2.4' ],
+100 silly audit   accepts: [ '1.3.8' ],
+100 silly audit   'array-flatten': [ '1.1.1' ],
+100 silly audit   asap: [ '2.0.6' ],
+100 silly audit   'assertion-error': [ '2.0.1' ],
+100 silly audit   asynckit: [ '0.4.0' ],
+100 silly audit   'body-parser': [ '1.20.4' ],
+100 silly audit   bytes: [ '3.1.2' ],
+100 silly audit   cac: [ '6.7.14' ],
+100 silly audit   'call-bind-apply-helpers': [ '1.0.2' ],
+100 silly audit   'call-bound': [ '1.0.4' ],
+100 silly audit   chai: [ '5.3.3' ],
+100 silly audit   'check-error': [ '2.1.3' ],
+100 silly audit   'combined-stream': [ '1.0.8' ],
+100 silly audit   'component-emitter': [ '1.3.1' ],
+100 silly audit   'content-disposition': [ '0.5.4' ],
+100 silly audit   'content-type': [ '1.0.5' ],
+100 silly audit   cookie: [ '0.7.2' ],
+100 silly audit   'cookie-signature': [ '1.0.7', '1.2.2' ],
+100 silly audit   cookiejar: [ '2.1.4' ],
+100 silly audit   debug: [ '2.6.9', '4.4.3' ],
+100 silly audit   'deep-eql': [ '5.0.2' ],
+100 silly audit   'delayed-stream': [ '1.0.0' ],
+100 silly audit   depd: [ '2.0.0' ],
+100 silly audit   destroy: [ '1.2.0' ],
+100 silly audit   dezalgo: [ '1.0.4' ],
+100 silly audit   'dunder-proto': [ '1.0.1' ],
+100 silly audit   'ee-first': [ '1.1.1' ],
+100 silly audit   encodeurl: [ '2.0.0' ],
+100 silly audit   'es-define-property': [ '1.0.1' ],
+100 silly audit   'es-errors': [ '1.3.0' ],
+100 silly audit   'es-module-lexer': [ '1.7.0' ],
+100 silly audit   'es-object-atoms': [ '1.1.1' ],
+100 silly audit   'es-set-tostringtag': [ '2.1.0' ],
+100 silly audit   esbuild: [ '0.27.3' ],
+100 silly audit   'escape-html': [ '1.0.3' ],
+100 silly audit   'estree-walker': [ '3.0.3' ],
+100 silly audit   etag: [ '1.8.1' ],
+100 silly audit   'expect-type': [ '1.3.0' ],
+100 silly audit   express: [ '4.22.1' ],
+100 silly audit   'fast-safe-stringify': [ '2.1.1' ],
+100 silly audit   fdir: [ '6.5.0' ],
+100 silly audit   finalhandler: [ '1.3.2' ],
+100 silly audit   'form-data': [ '4.0.5' ],
+100 silly audit   formidable: [ '3.5.4' ],
+100 silly audit   forwarded: [ '0.2.0' ],
+100 silly audit   fresh: [ '0.5.2' ],
+100 silly audit   fsevents: [ '2.3.3' ],
+100 silly audit   'function-bind': [ '1.1.2' ],
+100 silly audit   'get-intrinsic': [ '1.3.0' ],
+100 silly audit   'get-proto': [ '1.0.1' ],
+100 silly audit   'get-tsconfig': [ '4.13.6' ],
+100 silly audit   gopd: [ '1.2.0' ],
+100 silly audit   'has-symbols': [ '1.1.0' ],
+100 silly audit   'has-tostringtag': [ '1.0.2' ],
+100 silly audit   hasown: [ '2.0.2' ],
+100 silly audit   'http-errors': [ '2.0.1' ],
+100 silly audit   'iconv-lite': [ '0.4.24' ],
+100 silly audit   inherits: [ '2.0.4' ],
+100 silly audit   'ipaddr.js': [ '1.9.1' ],
+100 silly audit   'js-tokens': [ '9.0.1' ],
+100 silly audit   loupe: [ '3.2.1' ],
+100 silly audit   'magic-string': [ '0.30.21' ],
+100 silly audit   'math-intrinsics': [ '1.1.0' ],
+100 silly audit   'media-typer': [ '0.3.0' ],
+100 silly audit   'merge-descriptors': [ '1.0.3' ],
+100 silly audit   methods: [ '1.1.2' ],
+100 silly audit   mime: [ '1.6.0', '2.6.0' ],
+100 silly audit   'mime-db': [ '1.52.0' ],
+100 silly audit   'mime-types': [ '2.1.35' ],
+100 silly audit   ms: [ '2.0.0', '2.1.3' ],
+100 silly audit   nanoid: [ '3.3.11' ],
+100 silly audit   negotiator: [ '0.6.3' ],
+100 silly audit   'object-inspect': [ '1.13.4' ],
+100 silly audit   'on-finished': [ '2.4.1' ],
+100 silly audit   once: [ '1.4.0' ],
+100 silly audit   parseurl: [ '1.3.3' ],
+100 silly audit   'path-to-regexp': [ '0.1.12' ],
+100 silly audit   pathe: [ '2.0.3' ],
+100 silly audit   pathval: [ '2.0.1' ],
+100 silly audit   picocolors: [ '1.1.1' ],
+100 silly audit   picomatch: [ '4.0.3' ],
+100 silly audit   postcss: [ '8.5.8' ],
+100 silly audit   'proxy-addr': [ '2.0.7' ],
+100 silly audit   qs: [ '6.14.2' ],
+100 silly audit   'range-parser': [ '1.2.1' ],
+100 silly audit   'raw-body': [ '2.5.3' ],
+100 silly audit   'resolve-pkg-maps': [ '1.0.0' ],
+100 silly audit   rollup: [ '4.59.0' ],
+100 silly audit   'safe-buffer': [ '5.2.1' ],
+100 silly audit   'safer-buffer': [ '2.1.2' ],
+100 silly audit   send: [ '0.19.2' ],
+100 silly audit   'serve-static': [ '1.16.3' ],
+100 silly audit   setprototypeof: [ '1.2.0' ],
+100 silly audit   'side-channel': [ '1.1.0' ],
+100 silly audit   'side-channel-list': [ '1.0.0' ],
+100 silly audit   'side-channel-map': [ '1.0.1' ],
+100 silly audit   'side-channel-weakmap': [ '1.0.2' ],
+100 silly audit   siginfo: [ '2.0.0' ],
+100 silly audit   'source-map-js': [ '1.2.1' ],
+100 silly audit   stackback: [ '0.0.2' ],
+100 silly audit   statuses: [ '2.0.2' ],
+100 silly audit   'std-env': [ '3.10.0' ],
+100 silly audit   'strip-literal': [ '3.1.0' ],
+100 silly audit   superagent: [ '10.3.0' ],
+100 silly audit   supertest: [ '7.2.2' ],
+100 silly audit   tinybench: [ '2.9.0' ],
+100 silly audit   tinyexec: [ '0.3.2' ],
+100 silly audit   tinyglobby: [ '0.2.15' ],
+100 silly audit   tinypool: [ '1.1.1' ],
+100 silly audit   tinyrainbow: [ '2.0.0' ],
+100 silly audit   tinyspy: [ '4.0.4' ],
+100 silly audit   toidentifier: [ '1.0.1' ],
+100 silly audit   tsx: [ '4.21.0' ],
+100 silly audit   'type-is': [ '1.6.18' ],
+100 silly audit   typescript: [ '5.9.3' ],
+100 silly audit   'undici-types': [ '6.21.0' ],
+100 silly audit   unpipe: [ '1.0.0' ],
+100 silly audit   'utils-merge': [ '1.0.1' ],
+100 silly audit   vary: [ '1.1.2' ],
+100 silly audit   vite: [ '7.3.1' ],
+100 silly audit   'vite-node': [ '3.2.4' ],
+100 silly audit   vitest: [ '3.2.4' ],
+100 silly audit   'why-is-node-running': [ '2.3.0' ],
+100 silly audit   wrappy: [ '1.0.2' ],
+100 silly audit   '@supabase/supabase-js': [ '2.98.0' ],
+100 silly audit   zod: [ '3.25.76' ],
+100 silly audit   '@supabase/auth-js': [ '2.98.0' ],
+100 silly audit   '@supabase/functions-js': [ '2.98.0' ],
+100 silly audit   '@supabase/postgrest-js': [ '2.98.0' ],
+100 silly audit   '@supabase/realtime-js': [ '2.98.0' ],
+100 silly audit   '@supabase/storage-js': [ '2.98.0' ],
+100 silly audit   tslib: [ '2.8.1' ],
+100 silly audit   '@types/phoenix': [ '1.6.7' ],
+100 silly audit   '@types/ws': [ '8.18.1' ],
+100 silly audit   ws: [ '8.19.0' ],
+100 silly audit   'iceberg-js': [ '0.8.1' ]
+100 silly audit }
+101 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\fsevents
+102 silly reify mark deleted [
+102 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\fsevents'
+102 silly reify ]
+103 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-win32-ia32-msvc
+104 silly reify mark deleted [
+104 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-win32-ia32-msvc'
+104 silly reify ]
+105 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-win32-arm64-msvc
+106 silly reify mark deleted [
+106 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-win32-arm64-msvc'
+106 silly reify ]
+107 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-openharmony-arm64
+108 silly reify mark deleted [
+108 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-openharmony-arm64'
+108 silly reify ]
+109 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-openbsd-x64
+110 silly reify mark deleted [
+110 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-openbsd-x64'
+110 silly reify ]
+111 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-linux-x64-musl
+112 silly reify mark deleted [
+112 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-linux-x64-musl'
+112 silly reify ]
+113 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-linux-x64-gnu
+114 silly reify mark deleted [
+114 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-linux-x64-gnu'
+114 silly reify ]
+115 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-linux-s390x-gnu
+116 silly reify mark deleted [
+116 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-linux-s390x-gnu'
+116 silly reify ]
+117 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-linux-riscv64-musl
+118 silly reify mark deleted [
+118 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-linux-riscv64-musl'
+118 silly reify ]
+119 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-linux-riscv64-gnu
+120 silly reify mark deleted [
+120 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-linux-riscv64-gnu'
+120 silly reify ]
+121 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-linux-ppc64-musl
+122 silly reify mark deleted [
+122 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-linux-ppc64-musl'
+122 silly reify ]
+123 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-linux-ppc64-gnu
+124 silly reify mark deleted [
+124 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-linux-ppc64-gnu'
+124 silly reify ]
+125 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-linux-loong64-musl
+126 silly reify mark deleted [
+126 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-linux-loong64-musl'
+126 silly reify ]
+127 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-linux-loong64-gnu
+128 silly reify mark deleted [
+128 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-linux-loong64-gnu'
+128 silly reify ]
+129 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-linux-arm64-musl
+130 silly reify mark deleted [
+130 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-linux-arm64-musl'
+130 silly reify ]
+131 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-linux-arm64-gnu
+132 silly reify mark deleted [
+132 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-linux-arm64-gnu'
+132 silly reify ]
+133 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-linux-arm-musleabihf
+134 silly reify mark deleted [
+134 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-linux-arm-musleabihf'
+134 silly reify ]
+135 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-linux-arm-gnueabihf
+136 silly reify mark deleted [
+136 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-linux-arm-gnueabihf'
+136 silly reify ]
+137 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-freebsd-x64
+138 silly reify mark deleted [
+138 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-freebsd-x64'
+138 silly reify ]
+139 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-freebsd-arm64
+140 silly reify mark deleted [
+140 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-freebsd-arm64'
+140 silly reify ]
+141 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-darwin-x64
+142 silly reify mark deleted [
+142 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-darwin-x64'
+142 silly reify ]
+143 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-darwin-arm64
+144 silly reify mark deleted [
+144 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-darwin-arm64'
+144 silly reify ]
+145 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-android-arm64
+146 silly reify mark deleted [
+146 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-android-arm64'
+146 silly reify ]
+147 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@rollup\rollup-android-arm-eabi
+148 silly reify mark deleted [
+148 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@rollup\\rollup-android-arm-eabi'
+148 silly reify ]
+149 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\win32-ia32
+150 silly reify mark deleted [
+150 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\win32-ia32'
+150 silly reify ]
+151 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\win32-arm64
+152 silly reify mark deleted [
+152 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\win32-arm64'
+152 silly reify ]
+153 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\sunos-x64
+154 silly reify mark deleted [
+154 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\sunos-x64'
+154 silly reify ]
+155 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\openharmony-arm64
+156 silly reify mark deleted [
+156 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\openharmony-arm64'
+156 silly reify ]
+157 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\openbsd-x64
+158 silly reify mark deleted [
+158 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\openbsd-x64'
+158 silly reify ]
+159 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\openbsd-arm64
+160 silly reify mark deleted [
+160 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\openbsd-arm64'
+160 silly reify ]
+161 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\netbsd-x64
+162 silly reify mark deleted [
+162 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\netbsd-x64'
+162 silly reify ]
+163 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\netbsd-arm64
+164 silly reify mark deleted [
+164 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\netbsd-arm64'
+164 silly reify ]
+165 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\linux-x64
+166 silly reify mark deleted [
+166 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\linux-x64'
+166 silly reify ]
+167 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\linux-s390x
+168 silly reify mark deleted [
+168 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\linux-s390x'
+168 silly reify ]
+169 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\linux-riscv64
+170 silly reify mark deleted [
+170 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\linux-riscv64'
+170 silly reify ]
+171 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\linux-ppc64
+172 silly reify mark deleted [
+172 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\linux-ppc64'
+172 silly reify ]
+173 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\linux-mips64el
+174 silly reify mark deleted [
+174 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\linux-mips64el'
+174 silly reify ]
+175 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\linux-loong64
+176 silly reify mark deleted [
+176 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\linux-loong64'
+176 silly reify ]
+177 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\linux-ia32
+178 silly reify mark deleted [
+178 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\linux-ia32'
+178 silly reify ]
+179 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\linux-arm64
+180 silly reify mark deleted [
+180 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\linux-arm64'
+180 silly reify ]
+181 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\linux-arm
+182 silly reify mark deleted [
+182 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\linux-arm'
+182 silly reify ]
+183 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\freebsd-x64
+184 silly reify mark deleted [
+184 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\freebsd-x64'
+184 silly reify ]
+185 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\freebsd-arm64
+186 silly reify mark deleted [
+186 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\freebsd-arm64'
+186 silly reify ]
+187 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\darwin-x64
+188 silly reify mark deleted [
+188 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\darwin-x64'
+188 silly reify ]
+189 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\darwin-arm64
+190 silly reify mark deleted [
+190 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\darwin-arm64'
+190 silly reify ]
+191 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\android-x64
+192 silly reify mark deleted [
+192 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\android-x64'
+192 silly reify ]
+193 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\android-arm64
+194 silly reify mark deleted [
+194 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\android-arm64'
+194 silly reify ]
+195 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\android-arm
+196 silly reify mark deleted [
+196 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\android-arm'
+196 silly reify ]
+197 verbose reify failed optional dependency D:\codex_code\socialvibe\.worktrees\socialvibe-mvp\backend\node_modules\@esbuild\aix-ppc64
+198 silly reify mark deleted [
+198 silly reify   'D:\\codex_code\\socialvibe\\.worktrees\\socialvibe-mvp\\backend\\node_modules\\@esbuild\\aix-ppc64'
+198 silly reify ]
+199 http cache iceberg-js@https://registry.npmjs.org/iceberg-js/-/iceberg-js-0.8.1.tgz 0ms (cache hit)
+200 http cache ws@https://registry.npmjs.org/ws/-/ws-8.19.0.tgz 0ms (cache hit)
+201 http cache @types/phoenix@https://registry.npmjs.org/@types/phoenix/-/phoenix-1.6.7.tgz 0ms (cache hit)
+202 http cache @types/ws@https://registry.npmjs.org/@types/ws/-/ws-8.18.1.tgz 0ms (cache hit)
+203 http cache @supabase/realtime-js@https://registry.npmjs.org/@supabase/realtime-js/-/realtime-js-2.98.0.tgz 0ms (cache hit)
+204 http cache tslib@https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz 0ms (cache hit)
+205 http cache @supabase/storage-js@https://registry.npmjs.org/@supabase/storage-js/-/storage-js-2.98.0.tgz 0ms (cache hit)
+206 http cache @supabase/postgrest-js@https://registry.npmjs.org/@supabase/postgrest-js/-/postgrest-js-2.98.0.tgz 0ms (cache hit)
+207 http cache @supabase/functions-js@https://registry.npmjs.org/@supabase/functions-js/-/functions-js-2.98.0.tgz 0ms (cache hit)
+208 silly tarball no local data for iceberg-js@https://registry.npmjs.org/iceberg-js/-/iceberg-js-0.8.1.tgz. Extracting by manifest.
+209 silly tarball no local data for ws@https://registry.npmjs.org/ws/-/ws-8.19.0.tgz. Extracting by manifest.
+210 silly tarball no local data for @types/phoenix@https://registry.npmjs.org/@types/phoenix/-/phoenix-1.6.7.tgz. Extracting by manifest.
+211 silly tarball no local data for @types/ws@https://registry.npmjs.org/@types/ws/-/ws-8.18.1.tgz. Extracting by manifest.
+212 silly tarball no local data for @supabase/realtime-js@https://registry.npmjs.org/@supabase/realtime-js/-/realtime-js-2.98.0.tgz. Extracting by manifest.
+213 silly tarball no local data for tslib@https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz. Extracting by manifest.
+214 silly tarball no local data for @supabase/storage-js@https://registry.npmjs.org/@supabase/storage-js/-/storage-js-2.98.0.tgz. Extracting by manifest.
+215 silly tarball no local data for @supabase/postgrest-js@https://registry.npmjs.org/@supabase/postgrest-js/-/postgrest-js-2.98.0.tgz. Extracting by manifest.
+216 silly tarball no local data for @supabase/functions-js@https://registry.npmjs.org/@supabase/functions-js/-/functions-js-2.98.0.tgz. Extracting by manifest.
+217 http cache zod@https://registry.npmjs.org/zod/-/zod-3.25.76.tgz 0ms (cache hit)
+218 http cache @supabase/auth-js@https://registry.npmjs.org/@supabase/auth-js/-/auth-js-2.98.0.tgz 0ms (cache hit)
+219 http cache @supabase/supabase-js@https://registry.npmjs.org/@supabase/supabase-js/-/supabase-js-2.98.0.tgz 0ms (cache hit)
+220 silly tarball no local data for zod@https://registry.npmjs.org/zod/-/zod-3.25.76.tgz. Extracting by manifest.
+221 silly tarball no local data for @supabase/auth-js@https://registry.npmjs.org/@supabase/auth-js/-/auth-js-2.98.0.tgz. Extracting by manifest.
+222 silly tarball no local data for @supabase/supabase-js@https://registry.npmjs.org/@supabase/supabase-js/-/supabase-js-2.98.0.tgz. Extracting by manifest.
+223 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 399ms
+224 silly audit report {}
+225 http fetch GET 200 https://registry.npmjs.org/@types/phoenix/-/phoenix-1.6.7.tgz 365ms (cache miss)
+226 http fetch GET 200 https://registry.npmjs.org/@types/ws/-/ws-8.18.1.tgz 376ms (cache miss)
+227 http fetch GET 200 https://registry.npmjs.org/iceberg-js/-/iceberg-js-0.8.1.tgz 415ms (cache miss)
+228 http fetch GET 200 https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz 416ms (cache miss)
+229 http fetch GET 200 https://registry.npmjs.org/ws/-/ws-8.19.0.tgz 440ms (cache miss)
+230 http fetch GET 200 https://registry.npmjs.org/@supabase/postgrest-js/-/postgrest-js-2.98.0.tgz 709ms (cache miss)
+231 http fetch GET 200 https://registry.npmjs.org/@supabase/storage-js/-/storage-js-2.98.0.tgz 728ms (cache miss)
+232 http fetch GET 200 https://registry.npmjs.org/@supabase/realtime-js/-/realtime-js-2.98.0.tgz 848ms (cache miss)
+233 http fetch GET 200 https://registry.npmjs.org/@supabase/supabase-js/-/supabase-js-2.98.0.tgz 2099ms (cache miss)
+234 http fetch GET 200 https://registry.npmjs.org/@supabase/auth-js/-/auth-js-2.98.0.tgz 2974ms (cache miss)
+235 http fetch GET 200 https://registry.npmjs.org/@supabase/functions-js/-/functions-js-2.98.0.tgz 3019ms (cache miss)
+236 http fetch GET 200 https://registry.npmjs.org/zod/-/zod-3.25.76.tgz 4219ms (cache miss)
+237 silly ADD node_modules/iceberg-js
+238 silly ADD node_modules/ws
+239 silly ADD node_modules/@types/ws
+240 silly ADD node_modules/@types/phoenix
+241 silly ADD node_modules/tslib
+242 silly ADD node_modules/@supabase/storage-js
+243 silly ADD node_modules/@supabase/realtime-js
+244 silly ADD node_modules/@supabase/postgrest-js
+245 silly ADD node_modules/@supabase/functions-js
+246 silly ADD node_modules/@supabase/auth-js
+247 silly ADD node_modules/zod
+248 silly ADD node_modules/@supabase/supabase-js
+249 silly ADD node_modules/fsevents
+250 silly ADD node_modules/@rollup/rollup-win32-ia32-msvc
+251 silly ADD node_modules/@rollup/rollup-win32-arm64-msvc
+252 silly ADD node_modules/@rollup/rollup-openharmony-arm64
+253 silly ADD node_modules/@rollup/rollup-openbsd-x64
+254 silly ADD node_modules/@rollup/rollup-linux-x64-musl
+255 silly ADD node_modules/@rollup/rollup-linux-x64-gnu
+256 silly ADD node_modules/@rollup/rollup-linux-s390x-gnu
+257 silly ADD node_modules/@rollup/rollup-linux-riscv64-musl
+258 silly ADD node_modules/@rollup/rollup-linux-riscv64-gnu
+259 silly ADD node_modules/@rollup/rollup-linux-ppc64-musl
+260 silly ADD node_modules/@rollup/rollup-linux-ppc64-gnu
+261 silly ADD node_modules/@rollup/rollup-linux-loong64-musl
+262 silly ADD node_modules/@rollup/rollup-linux-loong64-gnu
+263 silly ADD node_modules/@rollup/rollup-linux-arm64-musl
+264 silly ADD node_modules/@rollup/rollup-linux-arm64-gnu
+265 silly ADD node_modules/@rollup/rollup-linux-arm-musleabihf
+266 silly ADD node_modules/@rollup/rollup-linux-arm-gnueabihf
+267 silly ADD node_modules/@rollup/rollup-freebsd-x64
+268 silly ADD node_modules/@rollup/rollup-freebsd-arm64
+269 silly ADD node_modules/@rollup/rollup-darwin-x64
+270 silly ADD node_modules/@rollup/rollup-darwin-arm64
+271 silly ADD node_modules/@rollup/rollup-android-arm64
+272 silly ADD node_modules/@rollup/rollup-android-arm-eabi
+273 silly ADD node_modules/@esbuild/win32-ia32
+274 silly ADD node_modules/@esbuild/win32-arm64
+275 silly ADD node_modules/@esbuild/sunos-x64
+276 silly ADD node_modules/@esbuild/openharmony-arm64
+277 silly ADD node_modules/@esbuild/openbsd-x64
+278 silly ADD node_modules/@esbuild/openbsd-arm64
+279 silly ADD node_modules/@esbuild/netbsd-x64
+280 silly ADD node_modules/@esbuild/netbsd-arm64
+281 silly ADD node_modules/@esbuild/linux-x64
+282 silly ADD node_modules/@esbuild/linux-s390x
+283 silly ADD node_modules/@esbuild/linux-riscv64
+284 silly ADD node_modules/@esbuild/linux-ppc64
+285 silly ADD node_modules/@esbuild/linux-mips64el
+286 silly ADD node_modules/@esbuild/linux-loong64
+287 silly ADD node_modules/@esbuild/linux-ia32
+288 silly ADD node_modules/@esbuild/linux-arm64
+289 silly ADD node_modules/@esbuild/linux-arm
+290 silly ADD node_modules/@esbuild/freebsd-x64
+291 silly ADD node_modules/@esbuild/freebsd-arm64
+292 silly ADD node_modules/@esbuild/darwin-x64
+293 silly ADD node_modules/@esbuild/darwin-arm64
+294 silly ADD node_modules/@esbuild/android-x64
+295 silly ADD node_modules/@esbuild/android-arm64
+296 silly ADD node_modules/@esbuild/android-arm
+297 silly ADD node_modules/@esbuild/aix-ppc64
+298 verbose cwd D:\codex_code\socialvibe
+299 verbose os Windows_NT 10.0.26200
+300 verbose node v24.10.0
+301 verbose npm  v11.6.1
+302 verbose exit 0
+303 info ok

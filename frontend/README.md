@@ -5,6 +5,7 @@
 # SocialVibe Frontend
 
 This frontend now depends on the local `backend` service for activities, profile, and favorites.
+Authentication is handled by Supabase Auth (email/password).
 
 ## Run Locally
 
@@ -16,9 +17,13 @@ Prerequisites:
 
 1. Install dependencies:
    `npm install`
-2. Start dev server:
+2. Configure env vars (copy `.env.example` to `.env.local`):
+   - `VITE_API_PROXY_TARGET` (default `http://127.0.0.1:4000`)
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+3. Start dev server:
    `npm run dev`
-3. Open:
+4. Open:
    `http://127.0.0.1:3000`
 
 Vite proxy forwards `/api/*` to `http://127.0.0.1:4000` by default.

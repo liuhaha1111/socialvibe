@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { z } from "zod";
-import { toErrorResponse } from "../lib/errors.js";
+import { AppError, toErrorResponse } from "../lib/errors.js";
 import { getCurrentProfile, updateCurrentProfile } from "../services/profileService.js";
 
 const UpdateProfileSchema = z
@@ -9,15 +9,28 @@ const UpdateProfileSchema = z
     bio: z.string().max(500).optional(),
     email: z.string().email().optional(),
     location: z.string().max(120).optional(),
-    avatar_url: z.string().url().optional()
+    avatar_url: z.string().url().optional(),
+    latitude: z.number().min(-90).max(90).optional(),
+    longitude: z.number().min(-180).max(180).optional()
+  })
+  .refine((value) => (value.latitude === undefined) === (value.longitude === undefined), {
+    message: "latitude and longitude must be provided together"
   })
   .refine((value) => Object.keys(value).length > 0, {
     message: "At least one field is required"
   });
 
-export async function handleGetMeProfile(_req: Request, res: Response) {
+function requireAuthContext(req: Request): { userId: string; email?: string } {
+  if (!req.auth) {
+    throw new AppError(401, "UNAUTHORIZED", "Missing bearer token");
+  }
+  return req.auth;
+}
+
+export async function handleGetMeProfile(req: Request, res: Response) {
   try {
-    const data = await getCurrentProfile();
+    const auth = requireAuthContext(req);
+    const data = await getCurrentProfile(auth.userId, auth.email);
     res.status(200).json({
       code: "OK",
       message: "Profile fetched",
@@ -31,8 +44,17 @@ export async function handleGetMeProfile(_req: Request, res: Response) {
 
 export async function handleUpdateMeProfile(req: Request, res: Response) {
   try {
-    const body = UpdateProfileSchema.parse(req.body);
-    const data = await updateCurrentProfile(body);
+    const auth = requireAuthContext(req);
+    const normalizedBody = { ...(req.body as Record<string, unknown>) };
+    if (typeof normalizedBody.email === "string" && normalizedBody.email.trim() === "") {
+      delete normalizedBody.email;
+    }
+    const body = UpdateProfileSchema.parse(normalizedBody);
+    const data = await updateCurrentProfile({
+      authUserId: auth.userId,
+      authEmail: auth.email,
+      ...body
+    });
     res.status(200).json({
       code: "OK",
       message: "Profile updated",

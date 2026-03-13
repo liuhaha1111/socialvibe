@@ -1,5 +1,6 @@
-insert into public.profiles (id, name, avatar_url, bio, email, location)
+insert into public.profiles (id, auth_user_id, name, avatar_url, bio, email, location)
 values (
+  '11111111-1111-1111-1111-111111111111',
   '11111111-1111-1111-1111-111111111111',
   'Test User',
   'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200',
@@ -9,6 +10,7 @@ values (
 )
 on conflict (id) do update
 set
+  auth_user_id = excluded.auth_user_id,
   name = excluded.name,
   avatar_url = excluded.avatar_url,
   bio = excluded.bio,

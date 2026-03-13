@@ -2,11 +2,14 @@ import React, { createContext, useCallback, useContext, useEffect, useState, typ
 import { apiGet, apiPut } from "../lib/api";
 
 export interface UserProfile {
+  id: string;
   name: string;
   avatar: string;
   bio: string;
   email: string;
   location: string;
+  latitude: number | null;
+  longitude: number | null;
 }
 
 interface UserContextType {
@@ -22,23 +25,31 @@ interface ProfileApi {
   bio: string | null;
   email: string | null;
   location: string | null;
+  latitude: number | null;
+  longitude: number | null;
 }
 
 const defaultUser: UserProfile = {
+  id: "",
   name: "User",
   avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop",
   bio: "",
   email: "",
-  location: ""
+  location: "",
+  latitude: null,
+  longitude: null
 };
 
 function mapApiToUser(profile: ProfileApi): UserProfile {
   return {
+    id: profile.id,
     name: profile.name,
     avatar: profile.avatar_url,
     bio: profile.bio || "",
     email: profile.email || "",
-    location: profile.location || ""
+    location: profile.location || "",
+    latitude: profile.latitude ?? null,
+    longitude: profile.longitude ?? null
   };
 }
 
@@ -63,8 +74,15 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (updates.name !== undefined) payload.name = updates.name;
     if (updates.avatar !== undefined) payload.avatar_url = updates.avatar;
     if (updates.bio !== undefined) payload.bio = updates.bio;
-    if (updates.email !== undefined) payload.email = updates.email;
+    if (updates.email !== undefined) {
+      const normalized = updates.email.trim();
+      if (normalized) {
+        payload.email = normalized;
+      }
+    }
     if (updates.location !== undefined) payload.location = updates.location;
+    if (updates.latitude !== undefined) payload.latitude = updates.latitude;
+    if (updates.longitude !== undefined) payload.longitude = updates.longitude;
 
     const data = await apiPut<ProfileApi>("/api/v1/me/profile", payload);
     setUser(mapApiToUser(data));

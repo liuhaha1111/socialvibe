@@ -10,7 +10,9 @@ if (!supabaseUrl || !serviceRoleKey) {
   process.exit(1);
 }
 
-const files = ["001_mvp_schema.sql", "002_mvp_seed.sql"];
+const baseFiles = ["001_mvp_schema.sql", "003_auth_profiles.sql", "004_social_chat_schema.sql", "005_location_geo.sql"];
+const shouldSeed = process.env.DB_SEED === "true";
+const files = shouldSeed ? [...baseFiles, "002_mvp_seed.sql"] : baseFiles;
 
 for (const file of files) {
   const sqlPath = path.join(process.cwd(), "db", "migrations", file);

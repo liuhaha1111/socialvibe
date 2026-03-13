@@ -4,10 +4,40 @@ interface ApiEnvelope<T> {
   data: T;
 }
 
+import { supabase } from "./supabase";
+
+export const AUTH_UNAUTHORIZED_EVENT = "auth:unauthorized";
+
+type AccessTokenProvider = (() => string | null | Promise<string | null>) | null;
+
+let accessTokenProvider: AccessTokenProvider = null;
+
+export function setAccessTokenProvider(provider: AccessTokenProvider): void {
+  accessTokenProvider = provider;
+}
+
+async function resolveAccessToken(): Promise<string | null> {
+  const fromProvider = accessTokenProvider ? await accessTokenProvider() : null;
+  if (fromProvider) {
+    return fromProvider;
+  }
+
+  try {
+    const { data } = await supabase.auth.getSession();
+    return data.session?.access_token ?? null;
+  } catch {
+    return null;
+  }
+}
+
 async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
+  const token = await resolveAccessToken();
+  const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
+
   const res = await fetch(path, {
     headers: {
       "Content-Type": "application/json",
+      ...authHeader,
       ...(init?.headers ?? {})
     },
     ...init
@@ -19,6 +49,9 @@ async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
 
   const body = (await res.json()) as Partial<ApiEnvelope<T>>;
   if (!res.ok) {
+    if (res.status === 401 && typeof window !== "undefined") {
+      window.dispatchEvent(new Event(AUTH_UNAUTHORIZED_EVENT));
+    }
     throw new Error(body.message ?? "Request failed");
   }
 

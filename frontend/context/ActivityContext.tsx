@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { apiDelete, apiGet, apiPost } from "../lib/api";
+import { useAuth } from "./AuthContext";
 
 export interface Activity {
   id: string;
@@ -16,6 +17,9 @@ export interface Activity {
   full?: boolean;
   description?: string;
   isUserCreated?: boolean;
+  latitude?: number | null;
+  longitude?: number | null;
+  distanceKm?: number;
 }
 
 interface CreateActivityInput {
@@ -26,6 +30,16 @@ interface CreateActivityInput {
   category: string;
   description?: string;
   max_participants: number;
+  latitude: number;
+  longitude: number;
+}
+
+interface ActivityListFilters {
+  q?: string;
+  category?: string;
+  latitude?: number;
+  longitude?: number;
+  radius_km?: number;
 }
 
 interface ActivityApi {
@@ -39,6 +53,9 @@ interface ActivityApi {
   participant_count: number;
   max_participants: number;
   is_favorite?: boolean;
+  latitude: number | null;
+  longitude: number | null;
+  distance_km?: number;
 }
 
 interface ActivityContextType {
@@ -47,7 +64,7 @@ interface ActivityContextType {
   favorites: string[];
   toggleFavorite: (id: string) => Promise<void>;
   isFavorite: (id: string) => boolean;
-  refreshActivities: () => Promise<void>;
+  refreshActivities: (filters?: ActivityListFilters) => Promise<void>;
 }
 
 const DEFAULT_IMAGE =
@@ -90,32 +107,50 @@ function mapApiToActivity(api: ActivityApi): Activity {
     avatars: Array.from({ length: avatarCount }, () => DEFAULT_AVATAR),
     full: needed === 0,
     description: api.description || "",
-    isUserCreated: true
+    isUserCreated: true,
+    latitude: api.latitude,
+    longitude: api.longitude,
+    distanceKm: api.distance_km
   };
 }
 
-function isUuid(value: string): boolean {
-  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
+function buildActivitiesPath(filters?: ActivityListFilters): string {
+  if (!filters) {
+    return "/api/v1/activities";
+  }
+
+  const params = new URLSearchParams();
+  if (filters.q) params.set("q", filters.q);
+  if (filters.category) params.set("category", filters.category);
+  if (filters.latitude !== undefined) params.set("latitude", filters.latitude.toString());
+  if (filters.longitude !== undefined) params.set("longitude", filters.longitude.toString());
+  if (filters.radius_km !== undefined) params.set("radius_km", filters.radius_km.toString());
+  const query = params.toString();
+  return query ? `/api/v1/activities?${query}` : "/api/v1/activities";
 }
 
 const ActivityContext = createContext<ActivityContextType | undefined>(undefined);
 
 export const ActivityProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const { isAuthenticated, isLoading, getAccessToken } = useAuth();
   const [activities, setActivities] = useState<Activity[]>([]);
   const [favorites, setFavorites] = useState<string[]>([]);
 
-  const refreshActivities = useCallback(async () => {
-    const remote = await apiGet<ActivityApi[]>("/api/v1/activities");
+  const refreshActivities = useCallback(async (filters?: ActivityListFilters) => {
+    const remote = await apiGet<ActivityApi[]>(buildActivitiesPath(filters));
     setActivities(remote.map(mapApiToActivity));
     setFavorites(remote.filter((x) => x.is_favorite).map((x) => x.id));
   }, []);
 
   useEffect(() => {
+    if (isLoading || !isAuthenticated || !getAccessToken()) {
+      return;
+    }
     refreshActivities().catch((error) => {
       // Keep UI usable even if backend is temporarily unavailable.
       console.error("Failed to load activities:", error);
     });
-  }, [refreshActivities]);
+  }, [getAccessToken, isAuthenticated, isLoading, refreshActivities]);
 
   const createActivity = useCallback(async (payload: CreateActivityInput) => {
     const created = await apiPost<ActivityApi>("/api/v1/activities", payload);
@@ -128,11 +163,6 @@ export const ActivityProvider: React.FC<{ children: ReactNode }> = ({ children }
       const currentlyFavorite = prev.includes(id);
       const next = currentlyFavorite ? prev.filter((x) => x !== id) : [...prev, id];
       setFavorites(next);
-
-      // Some static mock IDs still exist on detail mock card.
-      if (!isUuid(id)) {
-        return;
-      }
 
       try {
         if (currentlyFavorite) {

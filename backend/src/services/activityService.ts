@@ -1,13 +1,17 @@
-import { parseEnv } from "../config/env.js";
 import { AppError } from "../lib/errors.js";
 import {
+  addActivityMember,
   createActivity,
   getActivityById,
   getProfileById,
+  incrementActivityParticipantCount,
+  isActivityMember,
   listActivities,
   listFavoriteActivityIds,
   type ActivityRecord
 } from "../repositories/activityRepository.js";
+import { addProfileToActivityGroup, ensureActivityGroupConversation } from "./chatService.js";
+import { ensureProfileForAuthUser } from "./profileService.js";
 
 function toListDto(record: ActivityRecord, favoriteIds: Set<string>) {
   return {
@@ -20,16 +24,20 @@ function toListDto(record: ActivityRecord, favoriteIds: Set<string>) {
     description: record.description,
     participant_count: record.participant_count,
     max_participants: record.max_participants,
-    is_favorite: favoriteIds.has(record.id)
+    is_favorite: favoriteIds.has(record.id),
+    latitude: record.latitude,
+    longitude: record.longitude,
+    distance_km: record.distance_km
   };
 }
 
-export async function getActivities(filters: { q?: string; category?: string }) {
-  const env = parseEnv(process.env);
-  const [activities, favoriteIds] = await Promise.all([
-    listActivities(filters),
-    listFavoriteActivityIds(env.TEST_PROFILE_ID)
-  ]);
+export async function getActivities(
+  filters: { q?: string; category?: string; latitude?: number; longitude?: number; radius_km?: number },
+  authUserId: string,
+  email?: string
+) {
+  const profile = await ensureProfileForAuthUser(authUserId, email);
+  const [activities, favoriteIds] = await Promise.all([listActivities(filters), listFavoriteActivityIds(profile.id)]);
 
   const favoriteSet = new Set(favoriteIds);
   return activities.map((record) => toListDto(record, favoriteSet));
@@ -48,16 +56,22 @@ export async function getActivityDetail(id: string) {
   };
 }
 
-export async function createActivityForTestProfile(input: {
-  title: string;
-  image_url?: string;
-  location: string;
-  start_time: string;
-  category: string;
-  description?: string;
-  max_participants: number;
-}) {
-  const env = parseEnv(process.env);
+export async function createActivityForUser(
+  authUserId: string,
+  input: {
+    title: string;
+    image_url?: string;
+    location: string;
+    start_time: string;
+    category: string;
+    description?: string;
+    max_participants: number;
+    latitude: number;
+    longitude: number;
+  },
+  email?: string
+) {
+  const profile = await ensureProfileForAuthUser(authUserId, email);
   const activity = await createActivity({
     title: input.title,
     image_url: input.image_url,
@@ -65,10 +79,36 @@ export async function createActivityForTestProfile(input: {
     start_time: input.start_time,
     category: input.category,
     description: input.description,
-    host_profile_id: env.TEST_PROFILE_ID,
+    host_profile_id: profile.id,
     participant_count: 1,
-    max_participants: input.max_participants
+    max_participants: input.max_participants,
+    latitude: input.latitude,
+    longitude: input.longitude
   });
 
+  await addActivityMember(activity.id, profile.id);
+  await ensureActivityGroupConversation(activity.id, profile.id);
+
   return activity;
+}
+
+export async function joinActivityForUser(authUserId: string, activityId: string, email?: string) {
+  const profile = await ensureProfileForAuthUser(authUserId, email);
+  const activity = await getActivityById(activityId);
+  if (!activity) {
+    throw new AppError(404, "NOT_FOUND", "Activity not found");
+  }
+
+  if (await isActivityMember(activityId, profile.id)) {
+    throw new AppError(409, "CONFLICT", "Already joined this activity");
+  }
+
+  if (activity.participant_count >= activity.max_participants) {
+    throw new AppError(409, "CONFLICT", "Activity is full");
+  }
+
+  await addActivityMember(activityId, profile.id);
+  const updatedActivity = await incrementActivityParticipantCount(activityId);
+  await addProfileToActivityGroup(activityId, profile.id);
+  return updatedActivity;
 }

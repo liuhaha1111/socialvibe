@@ -1,6 +1,6 @@
 import request from "supertest";
 import { describe, expect, it } from "vitest";
-import { app } from "../../src/app";
+import { app } from "../../src/app.js";
 
 describe("health", () => {
   it("GET /api/v1/health returns ok", async () => {

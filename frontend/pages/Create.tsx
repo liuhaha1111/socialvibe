@@ -1,247 +1,246 @@
-﻿import React, { useState } from 'react';
-import { X, Edit2, Calendar, Clock, Plus, Info, Users, ArrowRight, Footprints, Palette, Coffee, Trophy, Music, MapPin } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { useActivity } from '../context/ActivityContext';
+﻿import React, { useState } from "react";
+import { ArrowLeft, Calendar, Clock, MapPin, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useActivity } from "../context/ActivityContext";
 
-const defaultCategories = [
-  { name: '鍩庡競婕', icon: <Footprints size={20} /> },
-  { name: '鎵嬩綔浣撻獙', icon: <Palette size={20} /> },
-  { name: '鍜栧暋鑱氫細', icon: <Coffee size={20} /> },
-  { name: '杩愬姩', icon: <Trophy size={20} /> },
-  { name: '闊充箰', icon: <Music size={20} /> },
-];
+const categories = ["城市漫步", "手作体验", "咖啡聚会", "运动", "音乐", "桌游"];
 
 export const Create: React.FC = () => {
   const navigate = useNavigate();
   const { createActivity } = useActivity();
 
-  const [title, setTitle] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState(defaultCategories[0].name);
-  const [customCategory, setCustomCategory] = useState('');
-  const [isCustomCategory, setIsCustomCategory] = useState(false);
-  const [date, setDate] = useState('2023-10-24');
-  const [time, setTime] = useState('17:00');
-  const [locationName, setLocationName] = useState('');
-  const [description, setDescription] = useState('');
-  const [limit, setLimit] = useState(8);
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState(categories[0]);
+  const [date, setDate] = useState("2026-03-08");
+  const [time, setTime] = useState("18:00");
+  const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
+  const [maxParticipants, setMaxParticipants] = useState(8);
+  const [submitting, setSubmitting] = useState(false);
+  const [locating, setLocating] = useState(false);
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const mapGeolocationError = (geoError: GeolocationPositionError): string => {
+    const raw = geoError.message.toLowerCase();
+    if (raw.includes("err_blocked_by_client") || raw.includes("network error. check devtools")) {
+      return "定位服务被浏览器插件拦截，请关闭拦截插件后重试";
+    }
+    if (geoError.code === geoError.PERMISSION_DENIED) {
+      return "你拒绝了定位权限，请在浏览器设置中允许定位";
+    }
+    if (geoError.code === geoError.POSITION_UNAVAILABLE) {
+      return "定位不可用，请检查网络后重试";
+    }
+    if (geoError.code === geoError.TIMEOUT) {
+      return "定位超时，请重试";
+    }
+    return geoError.message || "定位失败";
+  };
+
+  const handleUseCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      setError("当前浏览器不支持定位");
+      return;
+    }
+
+    setLocating(true);
+    setError(null);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+        if (!location.trim()) {
+          setLocation("当前位置");
+        }
+        setLocating(false);
+      },
+      (geoError) => {
+        setError(mapGeolocationError(geoError));
+        setLocating(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  };
 
   const handlePublish = async () => {
-    if (!title) {
-      alert("Please enter activity title");
+    if (!title.trim()) {
+      setError("请填写活动标题");
+      return;
+    }
+    if (!location.trim()) {
+      setError("请填写活动地点");
+      return;
+    }
+    if (latitude == null || longitude == null) {
+      setError("请先使用当前位置获取定位");
       return;
     }
 
-    const finalCategory = isCustomCategory ? customCategory : selectedCategory;
-    if (isCustomCategory && !customCategory) {
-      alert("Please enter custom category");
-      return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const startTime = new Date(`${date}T${time}:00`).toISOString();
+      await createActivity({
+        title: title.trim(),
+        location: location.trim(),
+        start_time: startTime,
+        category,
+        description: description.trim(),
+        max_participants: maxParticipants,
+        image_url: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1200&auto=format&fit=crop",
+        latitude,
+        longitude
+      });
+      navigate("/");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "发布失败");
+    } finally {
+      setSubmitting(false);
     }
-
-    if (!locationName) {
-      alert("Please enter location");
-      return;
-    }
-
-    const startTime = new Date(`${date}T${time}:00`).toISOString();
-    await createActivity({
-      title,
-      location: locationName,
-      start_time: startTime,
-      category: finalCategory,
-      description,
-      max_participants: limit,
-      image_url: "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1200&auto=format&fit=crop"
-    });
-    navigate("/");
   };
 
   return (
-    <div className="font-sans bg-background-light text-slate-900 min-h-screen pb-24">
-      <header className="sticky top-0 z-50 bg-background-light/80 backdrop-blur-md border-b border-primary/5 transition-all duration-300">
-        <div className="flex items-center justify-between px-4 py-3 max-w-md mx-auto">
-          <button onClick={() => navigate(-1)} className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-black/5 transition-colors">
-            <X size={24} />
+    <div className="bg-background-light min-h-screen text-slate-900 pb-24">
+      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-100">
+        <div className="max-w-md mx-auto px-4 py-3 flex items-center gap-3">
+          <button
+            onClick={() => navigate(-1)}
+            className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-slate-100"
+            aria-label="返回"
+          >
+            <ArrowLeft size={20} />
           </button>
-          <h1 className="text-lg font-bold tracking-tight text-center flex-1">鍙戝竷鏂版椿鍔?</h1>
-          <div className="w-10"></div> 
+          <h1 className="text-lg font-bold">发布新活动</h1>
         </div>
       </header>
 
-      <main className="max-w-md mx-auto px-5 pt-2 flex flex-col gap-8">
-        <section className="flex flex-col gap-4">
-          <div>
-            <h2 className="text-xl font-bold mb-3 px-1 text-slate-900">娲诲姩鍚嶇О</h2>
-            <div className="group relative">
-              <input 
-                className="w-full bg-white border-0 rounded-2xl py-6 px-5 text-xl font-semibold placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 transition-all shadow-sm shadow-primary/5" 
-                placeholder="缁欎綘鐨勬椿鍔ㄨ捣涓悕瀛?.." 
-                type="text" 
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none">
-                <Edit2 size={20} />
-              </div>
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-bold text-slate-500 uppercase tracking-wider mb-3 px-1">閫夋嫨鍒嗙被</label>
-            <div className="flex gap-3 overflow-x-auto custom-scrollbar pb-3 -mx-5 px-5 snap-x">
-              {defaultCategories.map((cat, idx) => (
-                <button 
-                  key={idx}
-                  onClick={() => {
-                      setSelectedCategory(cat.name);
-                      setIsCustomCategory(false);
-                  }}
-                  className={`snap-start shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full transition-transform active:scale-95 ${!isCustomCategory && selectedCategory === cat.name ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-white border border-slate-100 text-slate-600'}`}
-                >
-                  {cat.icon}
-                  <span className="font-semibold text-sm">{cat.name}</span>
-                </button>
-              ))}
-              <button 
-                  onClick={() => setIsCustomCategory(true)}
-                  className={`snap-start shrink-0 flex items-center justify-center w-12 h-10 rounded-full transition-transform active:scale-95 ${isCustomCategory ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-white border border-slate-100 text-slate-600'}`}
-                >
-                  <Plus size={24} />
+      <main className="max-w-md mx-auto px-4 py-4 space-y-5">
+        {error && <p className="text-sm text-red-500">{error}</p>}
+
+        <section>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">活动标题</label>
+          <input
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+            className="w-full h-12 rounded-xl border border-slate-200 px-4 bg-white focus:outline-none focus:ring-2 focus:ring-primary/30"
+            placeholder="例如：周末城市漫步"
+          />
+        </section>
+
+        <section>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">活动分类</label>
+          <div className="grid grid-cols-3 gap-2">
+            {categories.map((item) => (
+              <button
+                key={item}
+                onClick={() => setCategory(item)}
+                className={`h-10 rounded-xl text-sm font-semibold border ${
+                  item === category ? "bg-primary text-white border-primary" : "bg-white text-slate-700 border-slate-200"
+                }`}
+              >
+                {item}
               </button>
-            </div>
-            {isCustomCategory && (
-                <div className="mt-3 animate-in fade-in slide-in-from-top-1">
-                    <input 
-                        className="w-full bg-white border border-primary/20 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/50 focus:outline-none"
-                        placeholder="杈撳叆鑷畾涔夋爣绛惧悕绉?(渚嬪: 璇讳功浼?"
-                        value={customCategory}
-                        onChange={(e) => setCustomCategory(e.target.value)}
-                        autoFocus
-                    />
-                </div>
-            )}
+            ))}
           </div>
         </section>
 
-        <hr className="border-dashed border-slate-200" />
-
-        <section className="flex flex-col gap-5">
-          <h2 className="text-xl font-bold px-1 text-slate-900">鏃堕棿鍦扮偣</h2>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="relative flex flex-col gap-1.5 p-4 bg-white rounded-2xl border-2 border-transparent hover:border-primary/20 transition-colors cursor-pointer shadow-sm group">
-              <div className="flex items-center gap-2 text-primary mb-1">
-                <Calendar size={18} />
-                <span className="text-xs font-bold uppercase tracking-wide text-slate-500">鏃ユ湡</span>
-              </div>
-              <input 
-                type="date" 
-                className="font-bold text-lg leading-tight bg-transparent border-none p-0 focus:ring-0 text-slate-900 w-full"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
-            </div>
-            <div className="relative flex flex-col gap-1.5 p-4 bg-white rounded-2xl border-2 border-transparent hover:border-primary/20 transition-colors cursor-pointer shadow-sm group">
-              <div className="flex items-center gap-2 text-primary mb-1">
-                <Clock size={18} />
-                <span className="text-xs font-bold uppercase tracking-wide text-slate-500">鏃堕棿</span>
-              </div>
-              <input 
-                type="time" 
-                className="font-bold text-lg leading-tight bg-transparent border-none p-0 focus:ring-0 text-slate-900 w-full"
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-              />
-            </div>
+        <section className="grid grid-cols-2 gap-3">
+          <div className="bg-white rounded-xl border border-slate-200 px-3 py-2">
+            <label className="text-xs text-slate-500 flex items-center gap-1 mb-1">
+              <Calendar size={14} />
+              日期
+            </label>
+            <input
+              type="date"
+              value={date}
+              onChange={(event) => setDate(event.target.value)}
+              className="w-full bg-transparent border-none p-0 text-sm font-semibold focus:ring-0"
+            />
           </div>
-          
+          <div className="bg-white rounded-xl border border-slate-200 px-3 py-2">
+            <label className="text-xs text-slate-500 flex items-center gap-1 mb-1">
+              <Clock size={14} />
+              时间
+            </label>
+            <input
+              type="time"
+              value={time}
+              onChange={(event) => setTime(event.target.value)}
+              className="w-full bg-transparent border-none p-0 text-sm font-semibold focus:ring-0"
+            />
+          </div>
+        </section>
+
+        <section>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">活动地点</label>
           <div className="relative">
-             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none">
-                <MapPin size={20} />
-             </div>
-             <input 
-                className="w-full bg-white border-0 rounded-2xl py-4 pl-12 pr-4 text-base font-semibold placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 transition-all shadow-sm"
-                placeholder="杈撳叆娲诲姩鍦扮偣 (渚嬪: 闈欏畨鍏洯)"
-                value={locationName}
-                onChange={(e) => setLocationName(e.target.value)}
-             />
+            <MapPin size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              value={location}
+              onChange={(event) => setLocation(event.target.value)}
+              className="w-full h-12 rounded-xl border border-slate-200 pl-9 pr-4 bg-white focus:outline-none focus:ring-2 focus:ring-primary/30"
+              placeholder="例如：静安公园"
+            />
           </div>
-
-          <div className="relative w-full h-32 rounded-3xl overflow-hidden group shadow-sm opacity-80 hover:opacity-100 transition-opacity">
-            <div className="absolute inset-0 bg-slate-200">
-              <img 
-                alt="Map" 
-                className="w-full h-full object-cover mix-blend-multiply" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCodDhtLlCOzZ5LneMiwgjCvfbSpLGA7bsrsPlqlDO6wSh_IinBwwHp4d9t4AbdSu2JvbzICtw9iJczMpAYNxzSQw1hmUGLoZEpXxZfNyRMm2zvnq5hRYKbLcBXEtZgVJ_1OAZWTqr8PPESvIVc1xZJyNcrTE3UL7deMvRsXcLGvUZEaBLs10IrMdREU8puNRvD82kJi0_opEjHbwUvyl8TIJiIomm5LzwLBc3_q23J1c4kT5kOCfF3NTRqvcUE05-UL854gC1Qcr8"
-              />
-            </div>
-            <div className="absolute inset-0 bg-black/10"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-               <span className="bg-white/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full shadow-sm text-slate-600">鍦板浘棰勮</span>
-            </div>
-          </div>
-        </section>
-
-        <hr className="border-dashed border-slate-200" />
-
-        <section className="flex flex-col gap-6">
-          <div>
-            <div className="flex justify-between items-baseline mb-3 px-1">
-              <h2 className="text-xl font-bold text-slate-900">娲诲姩鎻忚堪</h2>
-              <span className="text-xs font-medium text-slate-400">閫夊～</span>
-            </div>
-            <textarea 
-              className="w-full bg-white border-0 rounded-2xl p-5 min-h-[140px] text-base leading-relaxed placeholder:text-slate-400 focus:ring-2 focus:ring-primary/50 resize-none shadow-sm" 
-              placeholder="鎻忚堪涓€涓嬪叿浣撶殑娲诲姩鍐呭銆傝鎻愬強闇€瑕佺殑瑁呭鎴栭泦鍚堢偣鐨勮缁嗕俊鎭?.."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            ></textarea>
-            <div className="flex justify-end mt-2 px-1">
-              <span className="text-xs text-slate-400 font-medium">{description.length}/500</span>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-3xl p-5 shadow-sm">
-            <div className="flex justify-between items-center mb-6">
-              <div className="flex items-center gap-2">
-                <div className="p-2 bg-primary/10 rounded-full text-primary">
-                  <Users size={20} />
-                </div>
-                <span className="font-bold text-slate-900">浜烘暟闄愬埗</span>
-              </div>
-              <span className="font-bold text-2xl text-primary font-display">{limit}</span>
-            </div>
-            <div className="px-2">
-              <input 
-                className="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary" 
-                type="range" 
-                min="2" 
-                max="20" 
-                value={limit}
-                onChange={(e) => setLimit(parseInt(e.target.value))}
-              />
-              <div className="flex justify-between mt-3 text-xs font-semibold text-slate-400">
-                <span>浠呮垜鍜屽ソ鍙?</span>
-                <span>澶у瀷鑱氫細</span>
-              </div>
-            </div>
+          <div className="mt-2 flex items-center justify-between">
+            <button
+              type="button"
+              onClick={handleUseCurrentLocation}
+              disabled={locating}
+              className="text-xs font-semibold text-primary"
+            >
+              {locating ? "定位中..." : "使用当前位置"}
+            </button>
+            {latitude != null && longitude != null ? (
+              <span className="text-[11px] text-slate-500">
+                {latitude.toFixed(5)}, {longitude.toFixed(5)}
+              </span>
+            ) : null}
           </div>
         </section>
-        <div className="h-10"></div>
+
+        <section>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-sm font-semibold text-slate-700">人数上限</label>
+            <span className="text-primary font-bold text-lg flex items-center gap-1">
+              <Users size={16} />
+              {maxParticipants}
+            </span>
+          </div>
+          <input
+            type="range"
+            min={2}
+            max={50}
+            value={maxParticipants}
+            onChange={(event) => setMaxParticipants(Number(event.target.value))}
+            className="w-full accent-primary"
+          />
+        </section>
+
+        <section>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">活动描述（可选）</label>
+          <textarea
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+            className="w-full min-h-28 rounded-xl border border-slate-200 px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
+            placeholder="介绍活动流程、注意事项等"
+          />
+        </section>
       </main>
 
-      <div className="fixed bottom-0 left-0 w-full p-4 pb-6 bg-gradient-to-t from-background-light via-background-light to-transparent z-40">
+      <div className="fixed bottom-0 left-0 right-0 p-4 pb-6 bg-gradient-to-t from-background-light via-background-light to-transparent">
         <div className="max-w-md mx-auto">
-          <button 
-            onClick={handlePublish}
-            className="w-full bg-primary hover:bg-primary-dark text-white font-bold text-lg py-4 rounded-full shadow-xl shadow-primary/30 flex items-center justify-center gap-2 transition-transform active:scale-[0.98]"
+          <button
+            onClick={() => handlePublish().catch(() => undefined)}
+            disabled={submitting}
+            className="w-full h-12 rounded-full bg-primary text-white font-bold disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            <span>鍙戝竷娲诲姩</span>
-            <ArrowRight size={24} />
+            {submitting ? "发布中..." : "发布活动"}
           </button>
         </div>
       </div>
     </div>
   );
 };
-
-
-
-

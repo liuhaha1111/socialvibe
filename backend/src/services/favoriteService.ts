@@ -1,19 +1,19 @@
-import { parseEnv } from "../config/env.js";
 import { AppError } from "../lib/errors.js";
 import { listActivitiesByIds, listFavoriteActivityIds } from "../repositories/activityRepository.js";
 import { createFavorite, deleteFavorite } from "../repositories/favoriteRepository.js";
+import { ensureProfileForAuthUser } from "./profileService.js";
 
-export async function listMyFavorites() {
-  const env = parseEnv(process.env);
-  const favoriteIds = await listFavoriteActivityIds(env.TEST_PROFILE_ID);
+export async function listMyFavorites(authUserId: string, email?: string) {
+  const profile = await ensureProfileForAuthUser(authUserId, email);
+  const favoriteIds = await listFavoriteActivityIds(profile.id);
   const activities = await listActivitiesByIds(favoriteIds);
   return activities;
 }
 
-export async function addFavorite(activityId: string) {
-  const env = parseEnv(process.env);
+export async function addFavorite(authUserId: string, activityId: string, email?: string) {
+  const profile = await ensureProfileForAuthUser(authUserId, email);
   try {
-    await createFavorite(env.TEST_PROFILE_ID, activityId);
+    await createFavorite(profile.id, activityId);
   } catch (error) {
     if (error instanceof Error && error.message.includes("duplicate key value")) {
       throw new AppError(409, "CONFLICT", "Favorite already exists");
@@ -22,7 +22,7 @@ export async function addFavorite(activityId: string) {
   }
 }
 
-export async function removeFavorite(activityId: string) {
-  const env = parseEnv(process.env);
-  await deleteFavorite(env.TEST_PROFILE_ID, activityId);
+export async function removeFavorite(authUserId: string, activityId: string, email?: string) {
+  const profile = await ensureProfileForAuthUser(authUserId, email);
+  await deleteFavorite(profile.id, activityId);
 }

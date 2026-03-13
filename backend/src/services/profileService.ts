@@ -1,24 +1,56 @@
-import { parseEnv } from "../config/env.js";
-import { AppError } from "../lib/errors.js";
-import { getProfileById, updateProfileById } from "../repositories/profileRepository.js";
+import {
+  createProfileForAuthUser,
+  getProfileByAuthUserId,
+  updateProfileById,
+  type ProfileRecord
+} from "../repositories/profileRepository.js";
 
-export async function getCurrentProfile() {
-  const env = parseEnv(process.env);
-  const profile = await getProfileById(env.TEST_PROFILE_ID);
-  if (!profile) {
-    throw new AppError(404, "NOT_FOUND", "Profile not found");
+const DEFAULT_AVATAR =
+  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop";
+
+function buildDefaultName(authUserId: string): string {
+  return `User-${authUserId.slice(0, 8)}`;
+}
+
+export async function ensureProfileForAuthUser(authUserId: string, email?: string): Promise<ProfileRecord> {
+  const existing = await getProfileByAuthUserId(authUserId);
+  if (existing) {
+    return existing;
   }
-  return profile;
+
+  return createProfileForAuthUser({
+    auth_user_id: authUserId,
+    name: buildDefaultName(authUserId),
+    avatar_url: DEFAULT_AVATAR,
+    bio: "",
+    email: email ?? null,
+    location: ""
+  });
+}
+
+export async function getCurrentProfile(authUserId: string, email?: string) {
+  return ensureProfileForAuthUser(authUserId, email);
 }
 
 export async function updateCurrentProfile(updates: {
+  authUserId: string;
+  authEmail?: string;
   name?: string;
   bio?: string;
   email?: string;
   location?: string;
   avatar_url?: string;
+  latitude?: number;
+  longitude?: number;
 }) {
-  const env = parseEnv(process.env);
-  const profile = await updateProfileById(env.TEST_PROFILE_ID, updates);
-  return profile;
+  const profile = await ensureProfileForAuthUser(updates.authUserId, updates.authEmail);
+  return updateProfileById(profile.id, {
+    name: updates.name,
+    bio: updates.bio,
+    email: updates.email,
+    location: updates.location,
+    avatar_url: updates.avatar_url,
+    latitude: updates.latitude,
+    longitude: updates.longitude
+  });
 }

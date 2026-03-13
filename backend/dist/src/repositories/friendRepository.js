@@ -1,0 +1,116 @@
+import { getSupabaseAdmin } from "../config/supabase.js";
+function normalizePair(a, b) {
+    return a < b ? { low: a, high: b } : { low: b, high: a };
+}
+export async function createFriendRequest(fromProfileId, toProfileId) {
+    const supabase = getSupabaseAdmin();
+    const { data, error } = await supabase
+        .from("friend_requests")
+        .insert({
+        from_profile_id: fromProfileId,
+        to_profile_id: toProfileId,
+        status: "pending"
+    })
+        .select("*")
+        .single();
+    if (error) {
+        throw new Error(error.message);
+    }
+    return data;
+}
+export async function listFriendRequestsForProfile(profileId) {
+    const supabase = getSupabaseAdmin();
+    const { data, error } = await supabase
+        .from("friend_requests")
+        .select("*")
+        .or(`from_profile_id.eq.${profileId},to_profile_id.eq.${profileId}`)
+        .order("created_at", { ascending: false });
+    if (error) {
+        throw new Error(error.message);
+    }
+    return (data ?? []);
+}
+export async function getFriendRequestById(requestId) {
+    const supabase = getSupabaseAdmin();
+    const { data, error } = await supabase.from("friend_requests").select("*").eq("id", requestId).maybeSingle();
+    if (error) {
+        throw new Error(error.message);
+    }
+    return data ?? null;
+}
+export async function updateFriendRequestStatus(requestId, status) {
+    const supabase = getSupabaseAdmin();
+    const { data, error } = await supabase
+        .from("friend_requests")
+        .update({
+        status,
+        responded_at: new Date().toISOString()
+    })
+        .eq("id", requestId)
+        .select("*")
+        .single();
+    if (error) {
+        throw new Error(error.message);
+    }
+    return data;
+}
+export async function createFriendship(profileA, profileB) {
+    const supabase = getSupabaseAdmin();
+    const pair = normalizePair(profileA, profileB);
+    const { error } = await supabase.from("friendships").upsert({
+        profile_low: pair.low,
+        profile_high: pair.high
+    }, { onConflict: "profile_low,profile_high" });
+    if (error) {
+        throw new Error(error.message);
+    }
+}
+export async function areFriends(profileA, profileB) {
+    const supabase = getSupabaseAdmin();
+    const pair = normalizePair(profileA, profileB);
+    const { data, error } = await supabase
+        .from("friendships")
+        .select("id")
+        .eq("profile_low", pair.low)
+        .eq("profile_high", pair.high)
+        .maybeSingle();
+    if (error) {
+        throw new Error(error.message);
+    }
+    return Boolean(data);
+}
+export async function listFriendProfiles(profileId) {
+    const supabase = getSupabaseAdmin();
+    const { data, error } = await supabase
+        .from("friendships")
+        .select("profile_low,profile_high")
+        .or(`profile_low.eq.${profileId},profile_high.eq.${profileId}`);
+    if (error) {
+        throw new Error(error.message);
+    }
+    const friendIds = (data ?? []).map((row) => row.profile_low === profileId ? row.profile_high : row.profile_low);
+    if (friendIds.length === 0) {
+        return [];
+    }
+    const { data: profiles, error: profileError } = await supabase
+        .from("profiles")
+        .select("id,name,avatar_url,bio,email,location")
+        .in("id", friendIds);
+    if (profileError) {
+        throw new Error(profileError.message);
+    }
+    return (profiles ?? []);
+}
+export async function listDiscoverProfiles(profileId, keyword) {
+    const supabase = getSupabaseAdmin();
+    let query = supabase.from("profiles").select("id,name,avatar_url,bio,email,location").neq("id", profileId).limit(20);
+    if (keyword) {
+        const pattern = `%${keyword}%`;
+        query = query.or(`name.ilike.${pattern},email.ilike.${pattern},location.ilike.${pattern}`);
+    }
+    const { data, error } = await query;
+    if (error) {
+        throw new Error(error.message);
+    }
+    return (data ?? []);
+}

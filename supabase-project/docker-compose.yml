@@ -118,6 +118,8 @@ services:
       db:
         # Disable this if you are using an external Postgres database
         condition: service_healthy
+      mail:
+        condition: service_healthy
       analytics:
         condition: service_healthy
     environment:
@@ -453,6 +455,26 @@ services:
       # Uncomment to use Big Query backend for analytics
       # GOOGLE_PROJECT_ID: ${GOOGLE_PROJECT_ID}
       # GOOGLE_PROJECT_NUMBER: ${GOOGLE_PROJECT_NUMBER}
+
+  mail:
+    container_name: supabase-mail
+    image: inbucket/inbucket:3.0.3
+    restart: unless-stopped
+    ports:
+      - 2825:9000/tcp
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:9000/"
+        ]
+      timeout: 5s
+      interval: 5s
+      retries: 3
 
   # Comment out everything below this point if you are using an external Postgres database
   db:

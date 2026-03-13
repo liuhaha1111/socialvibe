@@ -1,15 +1,18 @@
 import type { Request, Response } from "express";
 import { z } from "zod";
-import { toErrorResponse } from "../lib/errors.js";
+import { AppError, toErrorResponse } from "../lib/errors.js";
 import { addFavorite, listMyFavorites, removeFavorite } from "../services/favoriteService.js";
 
 const ParamsSchema = z.object({
   activityId: z.string().uuid()
 });
 
-export async function handleGetFavorites(_req: Request, res: Response) {
+export async function handleGetFavorites(req: Request, res: Response) {
   try {
-    const data = await listMyFavorites();
+    if (!req.auth) {
+      throw new AppError(401, "UNAUTHORIZED", "Missing bearer token");
+    }
+    const data = await listMyFavorites(req.auth.userId, req.auth.email);
     res.status(200).json({
       code: "OK",
       message: "Favorites fetched",
@@ -23,8 +26,11 @@ export async function handleGetFavorites(_req: Request, res: Response) {
 
 export async function handleAddFavorite(req: Request, res: Response) {
   try {
+    if (!req.auth) {
+      throw new AppError(401, "UNAUTHORIZED", "Missing bearer token");
+    }
     const params = ParamsSchema.parse(req.params);
-    await addFavorite(params.activityId);
+    await addFavorite(req.auth.userId, params.activityId, req.auth.email);
     res.status(201).json({
       code: "CREATED",
       message: "Favorite created",
@@ -38,8 +44,11 @@ export async function handleAddFavorite(req: Request, res: Response) {
 
 export async function handleDeleteFavorite(req: Request, res: Response) {
   try {
+    if (!req.auth) {
+      throw new AppError(401, "UNAUTHORIZED", "Missing bearer token");
+    }
     const params = ParamsSchema.parse(req.params);
-    await removeFavorite(params.activityId);
+    await removeFavorite(req.auth.userId, params.activityId, req.auth.email);
     res.status(204).send();
   } catch (error) {
     const payload = toErrorResponse(error);

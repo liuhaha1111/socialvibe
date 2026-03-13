@@ -11,13 +11,27 @@ export class AppError extends Error {
   }
 }
 
+function formatZodMessage(error: ZodError): string {
+  const first = error.issues[0];
+  if (!first) {
+    return "Invalid request";
+  }
+
+  const path = first.path.length > 0 ? first.path.join(".") : "";
+  if (path && first.message === "Required") {
+    return `${path} is required`;
+  }
+
+  return first.message;
+}
+
 export function toErrorResponse(error: unknown): { status: number; body: { code: string; message: string; data: null } } {
   if (error instanceof ZodError) {
     return {
       status: 400,
       body: {
         code: "BAD_REQUEST",
-        message: error.issues[0]?.message ?? "Invalid request",
+        message: formatZodMessage(error),
         data: null
       }
     };
@@ -32,6 +46,20 @@ export function toErrorResponse(error: unknown): { status: number; body: { code:
         data: null
       }
     };
+  }
+
+  if (error instanceof Error) {
+    const message = error.message.toLowerCase();
+    if (message.includes("jwt") || message.includes("token")) {
+      return {
+        status: 401,
+        body: {
+          code: "UNAUTHORIZED",
+          message: "Invalid or expired token",
+          data: null
+        }
+      };
+    }
   }
 
   return {
