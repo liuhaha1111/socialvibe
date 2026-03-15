@@ -1,5 +1,26 @@
 import { describe, expect, it, vi } from "vitest";
-import { apiGet, setAccessTokenProvider } from "./api";
+import { apiGet, resolveApiUrl, setAccessTokenProvider } from "./api";
+
+describe("resolveApiUrl", () => {
+  it("returns relative path when base url is empty", () => {
+    expect(resolveApiUrl("/api/v1/health", "")).toBe("/api/v1/health");
+  });
+
+  it("joins base url and path with a single slash", () => {
+    expect(resolveApiUrl("/api/v1/health", "https://api.example.com")).toBe(
+      "https://api.example.com/api/v1/health"
+    );
+    expect(resolveApiUrl("api/v1/health", "https://api.example.com/")).toBe(
+      "https://api.example.com/api/v1/health"
+    );
+  });
+
+  it("keeps absolute urls unchanged", () => {
+    expect(resolveApiUrl("https://other.example.com/ping", "https://api.example.com")).toBe(
+      "https://other.example.com/ping"
+    );
+  });
+});
 
 describe("apiGet", () => {
   it("attaches bearer token when access token provider returns a token", async () => {

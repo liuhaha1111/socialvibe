@@ -12,6 +12,22 @@ type AccessTokenProvider = (() => string | null | Promise<string | null>) | null
 
 let accessTokenProvider: AccessTokenProvider = null;
 
+const configuredApiBaseUrl = (import.meta.env.VITE_API_BASE_URL ?? "").trim();
+
+export function resolveApiUrl(path: string, baseUrl = configuredApiBaseUrl): string {
+  if (/^https?:\/\//i.test(path)) {
+    return path;
+  }
+
+  const trimmedBaseUrl = baseUrl.trim().replace(/\/+$/, "");
+  if (!trimmedBaseUrl) {
+    return path;
+  }
+
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${trimmedBaseUrl}${normalizedPath}`;
+}
+
 export function setAccessTokenProvider(provider: AccessTokenProvider): void {
   accessTokenProvider = provider;
 }
@@ -34,7 +50,7 @@ async function apiRequest<T>(path: string, init?: RequestInit): Promise<T> {
   const token = await resolveAccessToken();
   const authHeader = token ? { Authorization: `Bearer ${token}` } : {};
 
-  const res = await fetch(path, {
+  const res = await fetch(resolveApiUrl(path), {
     headers: {
       "Content-Type": "application/json",
       ...authHeader,
