@@ -9,8 +9,6 @@ interface AuthContextType {
   isLoading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
-  verifyEmailCode: (email: string, code: string) => Promise<void>;
-  resendSignupCode: (email: string) => Promise<void>;
   signOut: () => Promise<void>;
   getAccessToken: () => string | null;
 }
@@ -89,34 +87,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
       },
       signUp: async (email: string, password: string) => {
-        const emailRedirectTo =
-          typeof window !== "undefined" ? `${window.location.origin}${window.location.pathname}#/auth` : undefined;
         const { error } = await supabase.auth.signUp({
           email,
-          password,
-          options: emailRedirectTo ? { emailRedirectTo } : undefined
-        });
-        if (error) {
-          throw new Error(error.message);
-        }
-      },
-      verifyEmailCode: async (email: string, code: string) => {
-        const { error } = await supabase.auth.verifyOtp({
-          email,
-          token: code.trim(),
-          type: "signup"
-        });
-        if (error) {
-          throw new Error(error.message);
-        }
-      },
-      resendSignupCode: async (email: string) => {
-        const emailRedirectTo =
-          typeof window !== "undefined" ? `${window.location.origin}${window.location.pathname}#/auth` : undefined;
-        const { error } = await supabase.auth.resend({
-          type: "signup",
-          email,
-          options: emailRedirectTo ? { emailRedirectTo } : undefined
+          password
         });
         if (error) {
           throw new Error(error.message);
